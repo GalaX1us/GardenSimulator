@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
  *
  * @author frederic
  */
-public class Main {
+public class _Main {
 
     /**
      * @param args the command line arguments
@@ -23,8 +23,8 @@ public class Main {
 			}
 		});*/
 
-        Model M = new Model(10, 10);
-        Vue V = new Vue(M);
+        _Model M = new _Model(10, 10);
+        _Vue V = new _Vue(M);
         V.setVisible(true);
         M.addObserver(V);
         new Thread(M).start();

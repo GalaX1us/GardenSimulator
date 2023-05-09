@@ -30,12 +30,12 @@ import javax.swing.plaf.basic.BasicComboBoxUI.ItemHandler;
  *
  * @author frederic
  */
-public class Vue extends JFrame implements Observer{
+public class _Vue extends JFrame implements Observer{
 
-    public Model M;
+    public _Model M;
     public JComponent[][] tabG;
 
-    public Vue(Model modele) {
+    public _Vue(_Model modele) {
         super();
         
         this.M = modele;
@@ -77,7 +77,7 @@ public class Vue extends JFrame implements Observer{
 
         for(int i = 0; i<M.size_x;i++){
             for(int j = 0; j<M.size_y;j++){
-                JComponent ptest = new Case();
+                JComponent ptest = new _Case();
                 tabG[i][j] = ptest;
                 ptest.setBorder(blackline);
                 pan.add(ptest);

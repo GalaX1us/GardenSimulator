@@ -2,13 +2,13 @@ import java.lang.Thread.State;
 import java.util.Observable;
 import java.util.Random;
 
-public class Model extends Observable implements Runnable {
+public class _Model extends Observable implements Runnable {
 
     public int size_x;
     public int size_y;
     public boolean[][] tab;
     
-    public Model(int x, int y) {
+    public _Model(int x, int y) {
         this.size_x = x;
         this.size_y = y;
         this.tab = new boolean[size_x][size_y];
