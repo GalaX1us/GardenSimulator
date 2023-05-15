@@ -65,12 +65,12 @@ public class Vue extends JFrame implements Observer{
         
         setTitle("Ma première fenêtre");
         setSize(500, 500);
-        JComponent pan = new JPanel (new GridLayout(10, 10));
+        JComponent pan = new JPanel (new GridLayout(P.width, P.height));
         Border blackline = BorderFactory.createLineBorder(Color.black,1);
 
-        /*for(int i = 0; i<M.size_x;i++){
-            for(int j = 0; j<M.size_y;j++){
-                JComponent ptest = new _Case();
+        for(int i = 0; i<P.height;i++){
+            for(int j = 0; j<P.width;j++){
+                JComponent ptest = new JPanel();
                 tabG[i][j] = ptest;
                 ptest.setBorder(blackline);
                 pan.add(ptest);
@@ -78,24 +78,24 @@ public class Vue extends JFrame implements Observer{
                 final int ii = i;
                 final int jj = j;
 
-                tabG[i][j].addMouseListener(new MouseAdapter() {
+                /*tabG[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         M.maj(ii,jj);
                     }
-                });
+                });*/
             }
         }
         pan.setBorder(blackline);
         add(pan);
-        //setContentPane(pan);*/
+        //setContentPane(pan);
     }
 
     @Override
     public void update(Observable o, Object arg) {
         for(int i=0; i<P.height; i++) {
             for(int j=0; j<P.width; j++) {
-                if(P.tab[i][j].humidity > 10) {
+                if(P.getParcelle(j, i).humidity > 10) {
                     tabG[i][j].setBackground(Color.RED);
                 }
                 else {
