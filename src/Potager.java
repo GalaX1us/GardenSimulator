@@ -5,6 +5,8 @@ public class Potager {
     public int height;
     public int width;
     public Parcelle[][] tab;
+    
+
 
     public Potager(int x, int y) {
         this.height = y;
