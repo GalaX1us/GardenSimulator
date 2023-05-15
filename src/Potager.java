@@ -10,6 +10,13 @@ public class Potager {
         this.height = y;
         this.width = x;
         this.tab = new Parcelle[height][width];
+
+        for (Parcelle[] pt : this.tab){
+            for (Parcelle p : pt){
+                p = new Parcelle();
+            }
+        }
+
     }
 
     public void addObserver(Observer ob){
