@@ -93,7 +93,15 @@ public class Vue extends JFrame implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        for(int i=0; i<P.height; i++) {
+            for(int j=0; j<P.width; j++) {
+                if(P.tab[i][j].humidity > 10) {
+                    tabG[i][j].setBackground(Color.RED);
+                }
+                else {
+                    tabG[i][j].setBackground(Color.WHITE);
+                }
+            }
+        }
     }
 }
