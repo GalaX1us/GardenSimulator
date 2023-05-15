@@ -1,9 +1,5 @@
-public class Case implements Runnable {
+import javax.swing.JPanel;
 
-    @Override
-    public void run() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
-    }
+public class Case extends JPanel{
     
 }

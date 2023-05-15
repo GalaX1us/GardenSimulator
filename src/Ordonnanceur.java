@@ -6,8 +6,9 @@ public class Ordonnanceur extends Observable implements Runnable{
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
+        for(Runnable r : tab) {
+            r.run();
+        }
     }
     
 }
