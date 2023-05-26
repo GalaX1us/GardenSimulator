@@ -55,9 +55,9 @@ public class Meteo implements Runnable{
                 //jour
                 ligneCSV.add(Float.parseFloat(result[1]));
                 //precipitation
-                ligneCSV.add((Float.parseFloat(result[5])-2.251f)/4.743f);
+                ligneCSV.add((((Float.parseFloat(result[5])-2.251f)/4.743f)+1)/2);
                 //température
-                ligneCSV.add((Float.parseFloat(result[6])-10.66f)/7.561f);
+                ligneCSV.add((((Float.parseFloat(result[6])-10.66f)/7.561f)+1)/2);
             }
         } catch (IOException e) {
             e.printStackTrace();

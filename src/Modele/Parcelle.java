@@ -1,4 +1,7 @@
 package Modele;
+
+import java.time.YearMonth;
+
 public class Parcelle implements Runnable {
 
     public float humidite;
@@ -17,12 +20,12 @@ public class Parcelle implements Runnable {
     @Override
     public void run() {
         temperature = Meteo.getMeteo().temperature;
-        humidite = 0.5f*(Meteo.getMeteo().precipitation - Meteo.getMeteo().ensoleillement);
+        humidite += Meteo.getMeteo().precipitation-0.5f;
 
         if (humidite>1) humidite=1;
         if (humidite<0) humidite=0;
 
-        legume.calculCroissance();
+        legume.calculCroissance(humidite, temperature);
     }
     
 }
