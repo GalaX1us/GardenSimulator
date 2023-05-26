@@ -1,5 +1,5 @@
 package Legumes;
 
-public class Courgette {
+public class Aubergine {
     
 }

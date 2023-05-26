@@ -11,7 +11,7 @@ public class Potager {
         this.height = y;
         this.width = x;
         this.tab = new Parcelle[height][width];
-        this.meteo = new Meteo();
+        this.meteo = Meteo.getMeteo();
         for (Parcelle[] pt : this.tab){
             for (Parcelle p : pt){
                 p = new Parcelle();

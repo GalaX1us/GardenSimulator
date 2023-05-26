@@ -11,13 +11,14 @@ public class Meteo implements Runnable{
 
     private int cmpt;
 
-    private float jour;
-    private float annee;
+    public float jour;
+    public float annee;
 
-    private float temperature;
-    private float ensoleillement;
-    private float precipitation;
-    private float humidite; 
+    public float temperature;
+    public float ensoleillement;
+    public float precipitation;
+
+    private static Meteo m;
 
     public Meteo(){
         super();
@@ -27,6 +28,13 @@ public class Meteo implements Runnable{
         donneesCSV = new ArrayList<>();
         loadMeteo();
         cmpt = 0;
+    }
+
+    public static Meteo getMeteo(){
+        if (m==null){
+            m = new Meteo();
+        }
+        return m;
     }
 
     public void loadMeteo(){
@@ -41,7 +49,7 @@ public class Meteo implements Runnable{
 
                 String[] result = ligne.split(",");
                 
-                //jour
+                //annee
                 ligneCSV.add(Float.parseFloat(result[0]));
                 //jour
                 ligneCSV.add(Float.parseFloat(result[1]));
@@ -49,8 +57,6 @@ public class Meteo implements Runnable{
                 ligneCSV.add((Float.parseFloat(result[5])-2.251f)/4.743f);
                 //température
                 ligneCSV.add((Float.parseFloat(result[6])-10.66f)/7.561f);
-                //humidité
-                ligneCSV.add(Float.parseFloat(result[7]));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -63,7 +69,6 @@ public class Meteo implements Runnable{
         jour = donneesCSV.get(cmpt).get(1);
         precipitation = donneesCSV.get(cmpt).get(2);
         temperature = donneesCSV.get(cmpt).get(3);
-        humidite = donneesCSV.get(cmpt).get(4);
         ensoleillement = 1f-precipitation;
         cmpt = cmpt + 1;
     }
