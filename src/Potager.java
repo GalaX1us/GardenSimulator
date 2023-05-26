@@ -4,15 +4,14 @@ import java.util.Observer;
 public class Potager {
     public int height;
     public int width;
-    public Parcelle[][] tab;
-    
-
+    private Parcelle[][] tab;
+    private Meteo meteo;
 
     public Potager(int x, int y) {
         this.height = y;
         this.width = x;
         this.tab = new Parcelle[height][width];
-
+        this.meteo = new Meteo();
         for (Parcelle[] pt : this.tab){
             for (Parcelle p : pt){
                 p = new Parcelle();
@@ -24,5 +23,9 @@ public class Potager {
     public void addObserver(Observer ob){
         Ordonnanceur ord = Ordonnanceur.getOrdonnanceur();
         ord.addObserver(ob);
+    }
+
+    public Parcelle getParcelle(int i, int j) {
+        return tab[j][i];
     }
 }

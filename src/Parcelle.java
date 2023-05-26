@@ -3,6 +3,9 @@ public class Parcelle implements Runnable {
     public float humidity;
 
     public Parcelle(){
+        super();
+        Ordonnanceur o = Ordonnanceur.getOrdonnanceur();
+        o.addRunnable(this);
         this.humidity = 20;
     }
 
