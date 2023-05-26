@@ -5,9 +5,8 @@ import Modele.Legume;
 public class Salade extends Legume {
 
     @Override
-    public void calculCroissance() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calculCroissance'");
+    public void calculCroissance(float humidite, float temperature) {
+        croissance += ((humidite - (0.5f-temperature)*2)+1)/50;
     }
     
 }
