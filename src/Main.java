@@ -13,7 +13,7 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        Potager P = new Potager(10, 10);
+        Potager P = new Potager(8, 8);
         Vue V = new Vue(P);
         V.setVisible(true);
         P.addObserver(V);
