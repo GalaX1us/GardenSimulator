@@ -5,6 +5,10 @@
 
 import javax.swing.SwingUtilities;
 
+import Modele.Ordonnanceur;
+import Modele.Potager;
+import Vue.Vue;
+
 
 public class Main {
 

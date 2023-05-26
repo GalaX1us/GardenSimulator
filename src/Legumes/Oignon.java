@@ -1,5 +1,5 @@
 package Legumes;
 
-public class Poireau {
+public class Oignon {
     
 }

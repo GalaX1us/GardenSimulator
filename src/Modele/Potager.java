@@ -1,3 +1,4 @@
+package Modele;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,7 +12,7 @@ public class Potager {
         this.height = y;
         this.width = x;
         this.tab = new Parcelle[height][width];
-        this.meteo = new Meteo();
+        this.meteo = Meteo.getMeteo();
         for(int i=0; i<height; i++) {
             for(int j = 0; j<width; j++) {
                 this.tab[i][j] = new Parcelle();

@@ -1,3 +1,4 @@
+package Vue;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -11,6 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import Modele.Ordonnanceur;
 
 public class Case extends JLabel implements Runnable{
 
