@@ -1,3 +1,4 @@
+package Modele;
 public class Parcelle implements Runnable {
 
     public float humidite;

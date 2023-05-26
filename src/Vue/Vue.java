@@ -1,3 +1,4 @@
+package Vue;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -31,6 +32,8 @@ import javax.swing.JMenu;
 
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicComboBoxUI.ItemHandler;
+
+import Modele.Potager;
 
 public class Vue extends JFrame implements Observer {
 

@@ -1,3 +1,4 @@
+package Modele;
 public abstract class Legume {
 
     //entre 0 et 1
