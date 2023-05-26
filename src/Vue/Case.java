@@ -102,13 +102,11 @@ public class Case extends JLabel implements Runnable{
 
     @Override
     public void run() {
-        if(estDansMenu) { //TODO corriger
+        if(estDansMenu) {
             if(!(Potager.getSelection().equals(nomImage))) {
                 setBackground(Color.white);
             }
         }
-        // TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 
     // Renvoie les coordonnées de l'image dont le nom est en paramètre
@@ -153,7 +151,7 @@ public class Case extends JLabel implements Runnable{
     private void icone(String name) throws IOException {
         BufferedImage imageBuffer;
 
-        if(name.equals("terre")) {
+        if(name.equals("terre") || name.equals("")) {
             imageBuffer = ImageIO.read(new File("assets/Terre.png"));
             ImageIcon icon = new ImageIcon(imageBuffer);
             Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);

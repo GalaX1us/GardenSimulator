@@ -14,7 +14,7 @@ public class Potager {
         this.width = x;
         this.tab = new Parcelle[height][width];
         this.meteo = Meteo.getMeteo();
-        this.selection = "";
+        Potager.selection = "";
         for(int i=0; i<height; i++) {
             for(int j = 0; j<width; j++) {
                 this.tab[i][j] = new Parcelle();
