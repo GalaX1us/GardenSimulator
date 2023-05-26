@@ -31,8 +31,9 @@ public class Ordonnanceur extends Observable implements Runnable{
             }
             setChanged();
             notifyObservers();
+            //System.out.println("Je suis observer");
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
