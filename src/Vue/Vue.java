@@ -78,45 +78,37 @@ public class Vue extends JFrame implements Observer {
         JComponent pan = new JPanel (new GridLayout(P.width, P.height));
         Border blackline = BorderFactory.createLineBorder(Color.black,1);
 
-        // Création de l'image
-
-
-
-
-
-        // BufferedImage imageBuffer = ImageIO.read(new File("assets/Terre.png")); // chargement de l'image globale
-
-        // //BufferedImage salade = image.getSubimage(x, y, w, h); // image du légume le légume (x, y : coin supérieur gauche, w, h : largeur et hauteur)
-
-        // //ImageIcon iconeSalade = imageBuffer.getScaledInstance(20, 20,java.awt.Image.SCALE_SMOOTH); // icône redimentionnée
-        // ImageIcon icon = new ImageIcon(imageBuffer);
-        // Image image = icon.getImage().getScaledInstance(82, //icon.getIconWidth()*3,
-        //                                                 82, //icon.getIconHeight()*2,
-        //                                                 Image.SCALE_SMOOTH);
-        // icon = new ImageIcon(image, icon.getDescription());
-        // //ptest.setIcon(icon);
-
-
-
         // Remplissage de la grille d'images
         for(int i = 0; i<P.height;i++){
             for(int j = 0; j<P.width;j++){
                 Case ptest = new Case("terre"); //TODO faire un set opaque pour faire un setBackground pour montrer le taux d'humidité par exemple
-                //ptest.setIcon(icon);
                 ptest.setBorder(blackline);
                 tabG[i][j] = ptest;
                 pan.add(ptest);
             }
         }
-        pan.setBorder(blackline);
 
+        // Création du menu de choix de légume
         JComponent sideMenu = new JPanel(new GridLayout(4, 2));
-        for(int i = 0; i<6; i++) {
-            Case choix1 = new Case("terre");
-            //choix1.setIcon(icon);
-            choix1.setBorder(blackline);
-            sideMenu.add(choix1);
-        }
+
+        Case choix1 = new Case("salade");
+        choix1.setBorder(blackline);
+        sideMenu.add(choix1);
+        Case choix2 = new Case("champignon");
+        choix2.setBorder(blackline);
+        sideMenu.add(choix2);
+        Case choix3 = new Case("carotte");
+        choix3.setBorder(blackline);
+        sideMenu.add(choix3);
+        Case choix4 = new Case("mais");
+        choix4.setBorder(blackline);
+        sideMenu.add(choix4);
+        Case choix5 = new Case("aubergine");
+        choix5.setBorder(blackline);
+        sideMenu.add(choix5);
+        Case choix6 = new Case("oignon");
+        choix6.setBorder(blackline);
+        sideMenu.add(choix6);
         
         //sideMenu.add(new Label("test"));
         
@@ -132,7 +124,7 @@ public class Vue extends JFrame implements Observer {
         
         c.gridx = 1;
         c.weightx = 1;
-        c.insets = new Insets(0, 32, 0, 0);
+        c.insets = new Insets(30, 23, 0, 22);
         c.anchor = GridBagConstraints.NORTH;
         window.add(sideMenu, c);
         
