@@ -81,7 +81,7 @@ public class Vue extends JFrame implements Observer {
         // Remplissage de la grille d'images
         for(int i = 0; i<P.height;i++){
             for(int j = 0; j<P.width;j++){
-                Case ptest = new Case("terre"); //TODO faire un set opaque pour faire un setBackground pour montrer le taux d'humidité par exemple
+                Case ptest = new Case("terre", false); //TODO faire un set opaque pour faire un setBackground pour montrer le taux d'humidité par exemple
                 ptest.setBorder(blackline);
                 tabG[i][j] = ptest;
                 pan.add(ptest);
@@ -90,25 +90,12 @@ public class Vue extends JFrame implements Observer {
 
         // Création du menu de choix de légume
         JComponent sideMenu = new JPanel(new GridLayout(4, 2));
-
-        Case choix1 = new Case("salade");
-        choix1.setBorder(blackline);
-        sideMenu.add(choix1);
-        Case choix2 = new Case("champignon");
-        choix2.setBorder(blackline);
-        sideMenu.add(choix2);
-        Case choix3 = new Case("carotte");
-        choix3.setBorder(blackline);
-        sideMenu.add(choix3);
-        Case choix4 = new Case("mais");
-        choix4.setBorder(blackline);
-        sideMenu.add(choix4);
-        Case choix5 = new Case("aubergine");
-        choix5.setBorder(blackline);
-        sideMenu.add(choix5);
-        Case choix6 = new Case("oignon");
-        choix6.setBorder(blackline);
-        sideMenu.add(choix6);
+        String[] listeLegumes = {"salade", "champignon", "carotte", "mais", "aubergine", "oignon"};
+        for(int i = 0; i<6; i++) {
+            Case choixMenu = new Case(listeLegumes[i], true);
+            choixMenu.setBorder(blackline);
+            sideMenu.add(choixMenu);
+        }
         
         //sideMenu.add(new Label("test"));
         

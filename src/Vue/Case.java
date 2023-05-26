@@ -12,12 +12,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 import Modele.Ordonnanceur;
+import Modele.Potager;
 
 public class Case extends JLabel implements Runnable{
 
-    public Case() {
+    private boolean estDansMenu;
+    private String nomImage;
+
+    /*public Case() {
         super();
 
         Ordonnanceur.getOrdonnanceur().addRunnable(this);
@@ -50,16 +55,18 @@ public class Case extends JLabel implements Runnable{
         });
     
         setOpaque(true);
-    }
+    }*/
 
-    public Case(String nomImage) throws IOException {
+    public Case(String nomImage, boolean estDansMenu) throws IOException {
         super();
+        this.estDansMenu = estDansMenu;
+        this.nomImage = nomImage;
 
         Ordonnanceur.getOrdonnanceur().addRunnable(this);
 
         addMouseListener(new MouseAdapter() {
         
-            @Override
+            /*@Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseClicked(e);
                 setBackground(Color.GREEN);
@@ -69,16 +76,21 @@ public class Case extends JLabel implements Runnable{
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
                 setBackground(Color.white);
-            }
+            }*/
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                //System.out.println("Ca cliquece");
-                super.mouseClicked(e);
-                try {
-                    icone("salade");
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                if(!estDansMenu) {
+                    super.mouseClicked(e);
+                    try {
+                        icone(Potager.getSelection());
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                else {
+                    Potager.setSelection(nomImage);
+                    setBackground(Color.CYAN);
                 }
             }
             
@@ -90,6 +102,11 @@ public class Case extends JLabel implements Runnable{
 
     @Override
     public void run() {
+        if(estDansMenu) { //TODO corriger
+            if(!(Potager.getSelection().equals(nomImage))) {
+                setBackground(Color.white);
+            }
+        }
         // TODO Auto-generated method stub
         //throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
