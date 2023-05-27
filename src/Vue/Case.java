@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -21,6 +22,8 @@ public class Case extends JLabel implements Runnable{
 
     private boolean estDansMenu;
     private String nomImage;
+    private int scale;
+    //private ImageIcon icon;
 
     /*public Case() {
         super();
@@ -61,6 +64,8 @@ public class Case extends JLabel implements Runnable{
         super();
         this.estDansMenu = estDansMenu;
         this.nomImage = nomImage;
+        this.scale = 1;
+        //this.icon = null;
 
         Ordonnanceur.getOrdonnanceur().addRunnable(this);
 
@@ -98,6 +103,7 @@ public class Case extends JLabel implements Runnable{
         
         icone(nomImage);
         setOpaque(true);
+        setHorizontalAlignment(JLabel.CENTER);
     }
 
     @Override
@@ -107,11 +113,18 @@ public class Case extends JLabel implements Runnable{
                 setBackground(Color.white);
             }
         }
+        else if(!nomImage.equals("terre")) {
+            try {
+                scale();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // Renvoie les coordonnées de l'image dont le nom est en paramètre
     private int[] getCoordsImage(String name) {
-        int[] coordsLegume = new int[4];
+        int[] coordsLegume = new int[4]; // x, y, width, height
         coordsLegume[2] = 140;
         coordsLegume[3] = 140;
         switch(name) {
@@ -149,13 +162,16 @@ public class Case extends JLabel implements Runnable{
 
     // Remplace l'icone de la case par l'image dont le nom est en paramètre
     private void icone(String name) throws IOException {
+        this.nomImage = name;
         BufferedImage imageBuffer;
 
         if(name.equals("terre") || name.equals("")) {
+            this.nomImage = "terre"; // dans le cas où le nom est vide
             imageBuffer = ImageIO.read(new File("assets/Terre.png"));
             ImageIcon icon = new ImageIcon(imageBuffer);
+            //this.icon = icon;
             Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
-            icon = new ImageIcon(image, icon.getDescription());
+            icon = new ImageIcon(image);
             this.setIcon(icon);
         }
         else {
@@ -163,12 +179,25 @@ public class Case extends JLabel implements Runnable{
             int[] coords = getCoordsImage(name);
             BufferedImage legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
             ImageIcon icon = new ImageIcon(legume);
-            Image image = icon.getImage().getScaledInstance(icon.getIconWidth() *10/17,icon.getIconHeight() *10/17,Image.SCALE_SMOOTH);
-            icon = new ImageIcon(image, icon.getDescription());
+            //this.icon = icon;
+            Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
+            icon = new ImageIcon(image);
             this.setIcon(icon);
         }
 
         
+    }
+
+    private void scale() throws IOException {
+        BufferedImage imageBuffer = ImageIO.read(new File("assets/data.png")); // chargement de l'image globale
+        int[] coords = getCoordsImage(nomImage);
+        BufferedImage legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
+        ImageIcon icon = new ImageIcon(legume);
+        Image image = icon.getImage().getScaledInstance(20+this.scale,20+this.scale,Image.SCALE_SMOOTH);
+        icon = new ImageIcon(image);
+        this.setIcon(icon);
+
+        scale += scale<62?1:0; //augmente la scale si inférieur à 72
     }
     
 }
