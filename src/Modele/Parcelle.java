@@ -6,6 +6,7 @@ public class Parcelle implements Runnable {
 
     public float humidite;
     public float temperature;
+    public boolean booster;
 
     private Legume legume;
 
@@ -15,6 +16,7 @@ public class Parcelle implements Runnable {
         o.addRunnable(this);
         this.humidite = 0.5f;
         this.temperature = -1f;
+        this.booster = false;
     }
 
     @Override

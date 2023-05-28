@@ -23,11 +23,6 @@ public class Potager {
                 this.tab[i][j] = new Parcelle();
             }
         }
-        /*for (Parcelle[] pt : this.tab){
-            for (Parcelle p : pt){
-                p = new Parcelle();
-            }
-        }*/
 
     }
 
