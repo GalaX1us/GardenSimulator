@@ -8,11 +8,13 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.text.StyledEditorKit.BoldAction;
 
 import Modele.Ordonnanceur;
@@ -23,7 +25,9 @@ public class Case extends JLabel implements Runnable{
     private boolean estDansMenu;
     private String nomImage;
     private int scale;
-    //private ImageIcon icon;
+    private Border bordureRecolte;
+    private BufferedImage legume;
+    private boolean maturite;
 
     /*public Case() {
         super();
@@ -65,7 +69,9 @@ public class Case extends JLabel implements Runnable{
         this.estDansMenu = estDansMenu;
         this.nomImage = nomImage;
         this.scale = 1;
-        //this.icon = null;
+        this.bordureRecolte = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN);
+        this.legume = null;
+        this.maturite = false;
 
         Ordonnanceur.getOrdonnanceur().addRunnable(this);
 
@@ -113,7 +119,7 @@ public class Case extends JLabel implements Runnable{
                 setBackground(Color.white);
             }
         }
-        else if(!nomImage.equals("terre")) {
+        else if(!nomImage.equals("terre")) { // Si la case contient un légume on le fait pousser
             try {
                 scale();
             } catch (IOException e) {
@@ -169,7 +175,9 @@ public class Case extends JLabel implements Runnable{
             this.nomImage = "terre"; // dans le cas où le nom est vide
             imageBuffer = ImageIO.read(new File("assets/Terre.png"));
             ImageIcon icon = new ImageIcon(imageBuffer);
-            //this.icon = icon;
+            //
+            this.legume = imageBuffer;
+            //
             Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
             this.setIcon(icon);
@@ -178,9 +186,11 @@ public class Case extends JLabel implements Runnable{
             imageBuffer = ImageIO.read(new File("assets/data.png")); // chargement de l'image globale
             int[] coords = getCoordsImage(name);
             BufferedImage legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
+            this.legume = legume;
             ImageIcon icon = new ImageIcon(legume);
-            //this.icon = icon;
-            Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
+            //
+            //
+            Image image = icon.getImage().getScaledInstance(79,79,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
             this.setIcon(icon);
         }
@@ -189,15 +199,19 @@ public class Case extends JLabel implements Runnable{
     }
 
     private void scale() throws IOException {
-        BufferedImage imageBuffer = ImageIO.read(new File("assets/data.png")); // chargement de l'image globale
-        int[] coords = getCoordsImage(nomImage);
-        BufferedImage legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
-        ImageIcon icon = new ImageIcon(legume);
+        if(this.scale >= 59) { // Le légume a atteint la taille max
+            this.setBorder(bordureRecolte);
+            return;
+        }
+        // BufferedImage imageBuffer = ImageIO.read(new File("assets/data.png")); // chargement de l'image globale
+        // int[] coords = getCoordsImage(nomImage);
+        // BufferedImage legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
+        ImageIcon icon = new ImageIcon(this.legume);
         Image image = icon.getImage().getScaledInstance(20+this.scale,20+this.scale,Image.SCALE_SMOOTH);
         icon = new ImageIcon(image);
         this.setIcon(icon);
 
-        scale += scale<62?1:0; //augmente la scale si inférieur à 72
+        scale += scale<59?1:0; //augmente la scale si inférieur à 72
     }
     
 }
