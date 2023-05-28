@@ -17,4 +17,8 @@ public abstract class Legume {
         return this.value;
 
     }
+
+    public boolean isHarvestable(){
+        return this.harvestable;
+    }
 }
