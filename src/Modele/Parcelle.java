@@ -35,6 +35,8 @@ public class Parcelle implements Runnable {
         return legume;
     }
 
+    
+
     public void setLegume(){
     }
 }

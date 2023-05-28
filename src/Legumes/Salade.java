@@ -16,5 +16,4 @@ public class Salade extends Legume {
         }
         if (this.croissance>1) this.croissance = 1;
     }
-    
 }
