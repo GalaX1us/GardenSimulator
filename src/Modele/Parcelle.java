@@ -2,6 +2,13 @@ package Modele;
 
 import java.time.YearMonth;
 
+import Legumes.Aubergine;
+import Legumes.Carotte;
+import Legumes.Champignon;
+import Legumes.Mais;
+import Legumes.Oignon;
+import Legumes.Salade;
+
 public class Parcelle implements Runnable {
 
     public float humidite;
@@ -35,8 +42,32 @@ public class Parcelle implements Runnable {
         return legume;
     }
 
-    
+    public void recolte(){
+        this.legume = null;
+    }
 
-    public void setLegume(){
+    public void setLegume(String selection){
+        switch (selection) {
+            case "salade":
+                this.legume = new Salade();
+                break;
+            case "champignon":
+                this.legume = new Champignon();
+                break;
+            case "carotte":
+                this.legume = new Carotte();
+                break;
+            case "mais":
+                this.legume = new Mais();
+                break;
+            case "aubergine":
+                this.legume = new Aubergine();
+                break;
+            case "oignon":
+                this.legume = new Oignon();
+                break;
+            default:
+                break;
+        }
     }
 }
