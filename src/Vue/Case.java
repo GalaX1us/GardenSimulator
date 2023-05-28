@@ -28,6 +28,8 @@ public class Case extends JLabel implements Runnable{
     private Border bordureRecolte;
     private BufferedImage legume;
     private boolean maturite;
+    private int i;
+    private int j;
 
     /*public Case() {
         super();
@@ -64,7 +66,7 @@ public class Case extends JLabel implements Runnable{
         setOpaque(true);
     }*/
 
-    public Case(String nomImage, boolean estDansMenu) throws IOException {
+    public Case(String nomImage, boolean estDansMenu, int i, int j) throws IOException {
         super();
         this.estDansMenu = estDansMenu;
         this.nomImage = nomImage;
@@ -72,6 +74,8 @@ public class Case extends JLabel implements Runnable{
         this.bordureRecolte = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN);
         this.legume = null;
         this.maturite = false;
+        this.i = i;
+        this.j = j;
 
         Ordonnanceur.getOrdonnanceur().addRunnable(this);
 
@@ -98,6 +102,7 @@ public class Case extends JLabel implements Runnable{
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
+                    Potager.getClick(i,j);
                 }
                 else {
                     Potager.setSelection(nomImage);
@@ -211,7 +216,7 @@ public class Case extends JLabel implements Runnable{
         icon = new ImageIcon(image);
         this.setIcon(icon);
 
-        scale += scale<59?1:0; //augmente la scale si inférieur à 72
+        // scale += scale<59?1:0; //augmente la scale si inférieur à 72
     }
     
 }

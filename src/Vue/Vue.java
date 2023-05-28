@@ -81,7 +81,7 @@ public class Vue extends JFrame implements Observer {
         // Remplissage de la grille d'images
         for(int i = 0; i<P.height;i++){
             for(int j = 0; j<P.width;j++){
-                Case ptest = new Case("terre", false); //TODO faire un set opaque pour faire un setBackground pour montrer le taux d'humidité par exemple
+                Case ptest = new Case("terre", false, i ,j); //TODO faire un set opaque pour faire un setBackground pour montrer le taux d'humidité par exemple
                 ptest.setBorder(blackline);
                 tabG[i][j] = ptest;
                 pan.add(ptest);
@@ -92,7 +92,7 @@ public class Vue extends JFrame implements Observer {
         JComponent sideMenu = new JPanel(new GridLayout(4, 2));
         String[] listeLegumes = {"salade", "champignon", "carotte", "mais", "aubergine", "oignon"};
         for(int i = 0; i<6; i++) {
-            Case choixMenu = new Case(listeLegumes[i], true);
+            Case choixMenu = new Case(listeLegumes[i], true, -1, -1);
             choixMenu.setBorder(blackline);
             sideMenu.add(choixMenu);
         }
