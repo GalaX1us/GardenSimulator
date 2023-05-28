@@ -3,8 +3,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Potager {
-    public int height;
-    public int width;
+    public static int height;
+    public static int width;
     private Parcelle[][] tab;
     private Meteo meteo;
     private static String selection;

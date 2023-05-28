@@ -21,4 +21,8 @@ public abstract class Legume {
     public boolean isHarvestable(){
         return this.harvestable;
     }
+    
+    public float croissance(){
+        return this.croissance;
+    }
 }
