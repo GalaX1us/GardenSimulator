@@ -108,13 +108,19 @@ public class Vue extends JFrame implements Observer {
         }
 
         // Création du menu de choix de légume
-        JComponent sideMenu = new JPanel(new GridLayout(4, 2));
+        JComponent sideMenu = new JPanel(new GridLayout(5, 2));
         String[] listeLegumes = {"salade", "champignon", "carotte", "mais", "aubergine", "oignon"};
         for(int i = 0; i<6; i++) {
             Case choixMenu = new Case(listeLegumes[i], true, -1, -1);
             sideMenu.add(choixMenu);
         }
+
+        Case arrosoir = new Case("arrosoir", true, -1, -1);
+        Case engrais = new Case("engrais", true, -1, -1);
+        sideMenu.add(arrosoir);
+        sideMenu.add(engrais);
         
+        //sideMenu.add(new Label("test"));
         //sideMenu.add(new Label("test"));
         
         

@@ -26,7 +26,7 @@ public class Case extends JLabel implements Runnable{
     private String nomImage;
     private int scale;
     private Border bordureRecolte;
-    private BufferedImage legume;
+    private BufferedImage imageBuffer;
     private boolean maturite;
     private int i;
     private int j;
@@ -50,7 +50,7 @@ public class Case extends JLabel implements Runnable{
         this.nomImage = nomImage;
         this.scale = 1;
         this.bordureRecolte = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN);
-        this.legume = null;
+        this.imageBuffer = null;
         this.maturite = false;
         this.i = i;
         this.j = j;
@@ -68,7 +68,15 @@ public class Case extends JLabel implements Runnable{
         }
         
         icone(nomImage);
-        setBorder(BorderFactory.createLineBorder(Color.black,1));
+        if(estDansMenu) {
+            Color grisClair = new Color(238, 238, 238);
+            Border bordureExterne = BorderFactory.createLineBorder(grisClair, 4);
+            Border bordureInterne = BorderFactory.createLineBorder(Color.BLACK, 2);
+            setBorder(BorderFactory.createCompoundBorder(bordureExterne, bordureInterne));
+        }
+        else {
+            setBorder(BorderFactory.createLineBorder(Color.black,1));
+        }
         setOpaque(true);
         setHorizontalAlignment(JLabel.CENTER);
     }
@@ -135,9 +143,25 @@ public class Case extends JLabel implements Runnable{
         if(name.equals("terre") || name.equals("")) {
             this.nomImage = "terre"; // dans le cas où le nom est vide
             imageBuffer = ImageIO.read(new File("assets/Terre.png"));
-            this.legume = imageBuffer;
+            this.imageBuffer = imageBuffer;
             ImageIcon icon = new ImageIcon(imageBuffer);
             Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
+            icon = new ImageIcon(image);
+            this.setIcon(icon);
+        }
+        else if(name.equals("arrosoir")) {
+            imageBuffer = ImageIO.read(new File("assets/arrosoir.png"));
+            this.imageBuffer = imageBuffer;
+            ImageIcon icon = new ImageIcon(imageBuffer);
+            Image image = icon.getImage().getScaledInstance(64,64,Image.SCALE_SMOOTH);
+            icon = new ImageIcon(image);
+            this.setIcon(icon);
+        }
+        else if(name.equals("engrais")) {
+            imageBuffer = ImageIO.read(new File("assets/engrais.png"));
+            this.imageBuffer = imageBuffer;
+            ImageIcon icon = new ImageIcon(imageBuffer);
+            Image image = icon.getImage().getScaledInstance(64,64,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
             this.setIcon(icon);
         }
@@ -145,7 +169,7 @@ public class Case extends JLabel implements Runnable{
             imageBuffer = ImageIO.read(new File("assets/data.png")); // chargement de l'image globale
             int[] coords = getCoordsImage(name);
             BufferedImage legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
-            this.legume = legume;
+            this.imageBuffer = legume;
             ImageIcon icon = new ImageIcon(legume);
             Image image = icon.getImage().getScaledInstance(79,79,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
@@ -160,7 +184,7 @@ public class Case extends JLabel implements Runnable{
             this.setBorder(bordureRecolte);
             return;
         }
-        ImageIcon icon = new ImageIcon(this.legume);
+        ImageIcon icon = new ImageIcon(this.imageBuffer);
         Image image = icon.getImage().getScaledInstance(20+this.scale,20+this.scale,Image.SCALE_SMOOTH);
         icon = new ImageIcon(image);
         this.setIcon(icon);
