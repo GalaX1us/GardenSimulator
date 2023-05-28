@@ -88,7 +88,7 @@ public class Case extends JLabel implements Runnable{
         icone(nomImage);
         if(estDansMenu) {
             Color grisClair = new Color(238, 238, 238);
-            Border bordureExterne = BorderFactory.createLineBorder(grisClair, 4);
+            Border bordureExterne = BorderFactory.createLineBorder(grisClair, 3);
             Border bordureInterne = BorderFactory.createLineBorder(Color.BLACK, 2);
             setBorder(BorderFactory.createCompoundBorder(bordureExterne, bordureInterne));
         }
@@ -191,7 +191,7 @@ public class Case extends JLabel implements Runnable{
         }
         else {
             this.contientLegume = true;
-            this.scale = 1; //TODO à modifier avec la météo
+            this.scale = 1;
             imageBuffer = ImageIO.read(new File("assets/data.png")); // chargement de l'image globale
             int[] coords = getCoordsImage(name);
             BufferedImage legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
@@ -206,13 +206,14 @@ public class Case extends JLabel implements Runnable{
     }
 
     public void scale(float croissance) throws IOException {
-        int augmentation = (int) croissance*59;
+        int augmentation = (int) (croissance*58f);
+        System.out.println(augmentation);
         ImageIcon icon = new ImageIcon(this.imageBuffer);
         Image image = icon.getImage().getScaledInstance(20+augmentation,20+augmentation,Image.SCALE_SMOOTH);
         icon = new ImageIcon(image);
         this.setIcon(icon);
 
-        scale = augmentation;
+        scale = augmentation+1;
     }
 
     public void recolte() {
