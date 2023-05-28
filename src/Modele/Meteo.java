@@ -58,6 +58,8 @@ public class Meteo implements Runnable{
                 ligneCSV.add((((Float.parseFloat(result[5])-2.251f)/4.743f)+1)/2);
                 //température
                 ligneCSV.add((((Float.parseFloat(result[6])-10.66f)/7.561f)+1)/2);
+
+                donneesCSV.add(ligneCSV);
             }
         } catch (IOException e) {
             e.printStackTrace();

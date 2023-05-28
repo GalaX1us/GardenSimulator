@@ -49,4 +49,7 @@ public class Potager {
         //tab[j][i].testImg = !tab[j][i].testImg;
         //System.out.println("i = "+i+", j = "+j);
     }
+    public static void getClick(int i, int j){
+        
+    }
 }

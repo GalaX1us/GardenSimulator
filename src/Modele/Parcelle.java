@@ -28,4 +28,10 @@ public class Parcelle implements Runnable {
         legume.calculCroissance(humidite, temperature);
     }
     
+    public Legume getLegume(){
+        return legume;
+    }
+
+    public void setLegume(){
+    }
 }
