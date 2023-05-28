@@ -31,7 +31,18 @@ public class Case extends JLabel implements Runnable{
     private int i;
     private int j;
 
-    
+    public String getNomImage() {
+        return this.nomImage;
+    }
+
+    public boolean getEstDansMenu() {
+        return this.estDansMenu;
+    }
+
+    public int[] getCoords() {
+        int[] coords = {this.i, this.j};
+        return coords;
+    }
 
     public Case(String nomImage, boolean estDansMenu, int i, int j) throws IOException {
         super();
@@ -46,40 +57,18 @@ public class Case extends JLabel implements Runnable{
 
         Ordonnanceur.getOrdonnanceur().addRunnable(this);
 
-        addMouseListener(new MouseAdapter() {
-        
-            /*@Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseClicked(e);
-                setBackground(Color.GREEN);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                setBackground(Color.white);
-            }*/
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(!estDansMenu) {
-                    super.mouseClicked(e);
-                    try {
-                        icone(Potager.getSelection());
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                    Potager.getClick(i,j);
-                }
-                else {
+        if(estDansMenu) {
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
                     Potager.setSelection(nomImage);
                     setBackground(Color.CYAN);
                 }
-            }
-            
-        });
+            });
+        }
         
         icone(nomImage);
+        setBorder(BorderFactory.createLineBorder(Color.black,1));
         setOpaque(true);
         setHorizontalAlignment(JLabel.CENTER);
     }
@@ -139,7 +128,7 @@ public class Case extends JLabel implements Runnable{
     }
 
     // Remplace l'icone de la case par l'image dont le nom est en paramètre
-    private void icone(String name) throws IOException {
+    public void icone(String name) throws IOException {
         this.nomImage = name;
         BufferedImage imageBuffer;
 
@@ -176,7 +165,7 @@ public class Case extends JLabel implements Runnable{
         icon = new ImageIcon(image);
         this.setIcon(icon);
 
-        // scale += scale<59?1:0; //augmente la scale si inférieur à 72
+        //scale += scale<59?1:0; //augmente la scale si inférieur à 72
     }
     
 }

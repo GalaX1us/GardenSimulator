@@ -76,15 +76,34 @@ public class Vue extends JFrame implements Observer {
 
         // Création de la grille du potager
         JComponent pan = new JPanel (new GridLayout(P.width, P.height));
-        Border blackline = BorderFactory.createLineBorder(Color.black,1);
 
         // Remplissage de la grille d'images
         for(int i = 0; i<P.height;i++){
             for(int j = 0; j<P.width;j++){
-                Case ptest = new Case("terre", false, i ,j); //TODO faire un set opaque pour faire un setBackground pour montrer le taux d'humidité par exemple
-                ptest.setBorder(blackline);
-                tabG[i][j] = ptest;
-                pan.add(ptest);
+                Case casePotager = new Case("terre", false, i ,j); //TODO faire un set opaque pour faire un setBackground pour montrer le taux d'humidité par exemple
+                
+                casePotager.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(!casePotager.getEstDansMenu()) {
+                            super.mouseClicked(e);
+                            try {
+                                casePotager.icone(Potager.getSelection());
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                            int[] coords = casePotager.getCoords();
+                            Potager.getClick(coords[0],coords[1]);
+                        }
+                        else {
+                            Potager.setSelection(casePotager.getNomImage());
+                            setBackground(Color.CYAN);
+                        }
+                    }
+                });
+                
+                tabG[i][j] = casePotager;
+                pan.add(casePotager);
             }
         }
 
@@ -93,7 +112,6 @@ public class Vue extends JFrame implements Observer {
         String[] listeLegumes = {"salade", "champignon", "carotte", "mais", "aubergine", "oignon"};
         for(int i = 0; i<6; i++) {
             Case choixMenu = new Case(listeLegumes[i], true, -1, -1);
-            choixMenu.setBorder(blackline);
             sideMenu.add(choixMenu);
         }
         
