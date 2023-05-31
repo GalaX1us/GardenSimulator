@@ -2,6 +2,7 @@ package Vue;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -41,12 +42,15 @@ public class Vue extends JFrame implements Observer {
     public Case[][] tabG;
     private static int WIDTH = 900;
     private static int HEIGHT = 700;
+    private Label affichageArgent;
 
     public Vue(Potager potager) {
         super();
 
         this.P = potager;
         this.tabG = new Case[10][10];
+        this.affichageArgent = new Label("test", JLabel.CENTER);
+        affichageArgent.setFont(new Font("Serif", Font.PLAIN, 14)); //TODO augmenter la taille
 
         try {
             build();
@@ -82,18 +86,33 @@ public class Vue extends JFrame implements Observer {
             for(int j = 0; j<P.width;j++){
                 Case casePotager = new Case("terre", false, i ,j); //TODO faire un set opaque pour faire un setBackground pour montrer le taux d'humidité par exemple
                 
+
+                // Gestion du clic de la case
                 casePotager.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if(!casePotager.getEstDansMenu()) {
                             super.mouseClicked(e);
-                            try {
-                                casePotager.icone(Potager.getSelection());
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
+                            if(!casePotager.getContientLegume()) {
+                                try {
+                                    casePotager.icone(Potager.getSelection());
+                                } catch (IOException e1) {
+                                    e1.printStackTrace();
+                                }
+                                int[] coords = casePotager.getCoords();
+                                Potager.getClick(coords[0],coords[1]);
                             }
-                            int[] coords = casePotager.getCoords();
-                            Potager.getClick(coords[0],coords[1]);
+                            if(casePotager.getMaturite()) {
+                                P.ajoutArgent(10);
+                                casePotager.setBorder(BorderFactory.createLineBorder(Color.black,1));
+                                casePotager.setContientLegume(false);
+                                casePotager.setMaturite(false); //TODO régler pb maturité pour replanter
+                                try {
+                                    casePotager.icone("terre");
+                                } catch (IOException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
                         }
                         else {
                             Potager.setSelection(casePotager.getNomImage());
@@ -108,6 +127,7 @@ public class Vue extends JFrame implements Observer {
         }
 
         // Création du menu de choix de légume
+        //TODO séparer icones de choix du reste
         JComponent sideMenu = new JPanel(new GridLayout(5, 2));
         String[] listeLegumes = {"salade", "champignon", "carotte", "mais", "aubergine", "oignon"};
         for(int i = 0; i<6; i++) {
@@ -120,7 +140,7 @@ public class Vue extends JFrame implements Observer {
         sideMenu.add(arrosoir);
         sideMenu.add(engrais);
         
-        //sideMenu.add(new Label("test"));
+        sideMenu.add(affichageArgent);
         //sideMenu.add(new Label("test"));
         
         
@@ -145,6 +165,7 @@ public class Vue extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        affichageArgent.setText("Vous avez "+P.getArgent()+"€.");
         //System.out.println("je suis dans la vue");
         // for (int i = 0; i < P.height; i++) {
         //     for (int j = 0; j < P.width; j++) {

@@ -8,10 +8,13 @@ public class Potager {
     private Parcelle[][] tab;
     private Meteo meteo;
     private static String selection;
+    private int argent;
+    
 
     public Potager(int x, int y) {
         this.height = y;
         this.width = x;
+        this.argent = 0;
         this.tab = new Parcelle[height][width];
         this.meteo = Meteo.getMeteo();
         Potager.selection = "";
@@ -51,5 +54,13 @@ public class Potager {
     }
     public static void getClick(int i, int j){
         
+    }
+    
+    public void ajoutArgent(int argent) {
+        this.argent += argent;
+    }
+
+    public int getArgent() {
+        return this.argent;
     }
 }
