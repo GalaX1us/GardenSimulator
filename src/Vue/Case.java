@@ -27,7 +27,7 @@ public class Case extends JLabel implements Runnable{
     private int scale;
     private Border bordureRecolte;
     private BufferedImage imageBuffer;
-    private boolean contientLegume; //TODO faire la maj
+    private boolean contientLegume;
     private boolean maturite;
     private int i;
     private int j;
@@ -111,13 +111,13 @@ public class Case extends JLabel implements Runnable{
                 this.setBorder(bordureRecolte);
                 this.maturite = true;
             }
-            else {
-                try {
-                    scale();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            // else {
+            //     try {
+            //         scale();
+            //     } catch (IOException e) {
+            //         e.printStackTrace();
+            //     }
+            // }
         }
     }
 
@@ -205,13 +205,14 @@ public class Case extends JLabel implements Runnable{
         
     }
 
-    private void scale() throws IOException {
+    public void scale(float croissance) throws IOException {
+        int augmentation = (int) croissance*59;
         ImageIcon icon = new ImageIcon(this.imageBuffer);
-        Image image = icon.getImage().getScaledInstance(20+this.scale,20+this.scale,Image.SCALE_SMOOTH);
+        Image image = icon.getImage().getScaledInstance(20+augmentation,20+augmentation,Image.SCALE_SMOOTH);
         icon = new ImageIcon(image);
         this.setIcon(icon);
 
-        scale += scale<59?1:0; //augmente la scale si inférieur à 72
+        scale = augmentation;
     }
 
     public void recolte() {

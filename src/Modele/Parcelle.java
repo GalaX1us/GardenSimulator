@@ -27,7 +27,7 @@ public class Parcelle implements Runnable {
         if (humidite>1) humidite=1;
         if (humidite<0) humidite=0;
 
-        legume.calculCroissance(humidite, temperature);
+        if(this.legume!=null) {legume.calculCroissance(humidite, temperature);}
     }
     
     public Legume getLegume(){
