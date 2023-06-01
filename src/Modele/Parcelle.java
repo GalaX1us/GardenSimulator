@@ -42,8 +42,11 @@ public class Parcelle implements Runnable {
         return legume;
     }
 
-    public void recolte(){
+    public float recolte(){
         this.legume = null;
+        float v = this.legume.getValue();
+        if (this.booster) v*=2;
+        return v;
     }
 
     public void setLegume(String selection){
