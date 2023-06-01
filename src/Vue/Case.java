@@ -173,7 +173,7 @@ public class Case extends JLabel implements Runnable{
             icon = new ImageIcon(image);
             this.setIcon(icon);
         }
-        else if(name.equals("arrosoir")) {
+        else if(name.equals("arrosoir")) { //TODO progressbar pour l'utilisation de l'arrosoir qui fait avancer de 10 jours instant
             imageBuffer = ImageIO.read(new File("assets/arrosoir.png"));
             this.imageBuffer = imageBuffer;
             ImageIcon icon = new ImageIcon(imageBuffer);
@@ -181,7 +181,7 @@ public class Case extends JLabel implements Runnable{
             icon = new ImageIcon(image);
             this.setIcon(icon);
         }
-        else if(name.equals("engrais")) {
+        else if(name.equals("engrais")) { //TODO achter avec l'argent et double l'argent récolté
             imageBuffer = ImageIO.read(new File("assets/engrais.png"));
             this.imageBuffer = imageBuffer;
             ImageIcon icon = new ImageIcon(imageBuffer);
