@@ -50,7 +50,7 @@ public class Vue extends JFrame implements Observer {
         this.P = potager;
         this.tabG = new Case[10][10];
         this.affichageArgent = new Label("test", JLabel.CENTER);
-        affichageArgent.setFont(new Font("Serif", Font.PLAIN, 14)); //TODO augmenter la taille
+        affichageArgent.setFont(new Font("Serif", Font.PLAIN, 20)); //TODO augmenter la taille
 
         try {
             build();
@@ -93,7 +93,7 @@ public class Vue extends JFrame implements Observer {
                     public void mouseClicked(MouseEvent e) {
                         if(!casePotager.getEstDansMenu()) {
                             super.mouseClicked(e);
-                            if(!casePotager.getContientLegume()) {
+                            if(!casePotager.getContientLegume()) { // On plante le légume
                                 try {
                                     casePotager.icone(Potager.getSelection());
                                 } catch (IOException e1) {
@@ -102,16 +102,9 @@ public class Vue extends JFrame implements Observer {
                                 int[] coords = casePotager.getCoords();
                                 Potager.getClick(coords[0],coords[1]);
                             }
-                            if(casePotager.getMaturite()) {
+                            if(casePotager.getMaturite()) { // Si le légume est à maturité on le récolte
                                 P.ajoutArgent(10);
-                                casePotager.setBorder(BorderFactory.createLineBorder(Color.black,1));
-                                casePotager.setContientLegume(false);
-                                casePotager.setMaturite(false); //TODO régler pb maturité pour replanter
-                                try {
-                                    casePotager.icone("terre");
-                                } catch (IOException e1) {
-                                    e1.printStackTrace();
-                                }
+                                casePotager.recolte();
                             }
                         }
                         else {
@@ -127,21 +120,21 @@ public class Vue extends JFrame implements Observer {
         }
 
         // Création du menu de choix de légume
-        //TODO séparer icones de choix du reste
-        JComponent sideMenu = new JPanel(new GridLayout(5, 2));
+        JComponent sideMenu = new JPanel(new GridLayout(2, 1));
+        JComponent menuLegumes = new JPanel(new GridLayout(4, 2));
         String[] listeLegumes = {"salade", "champignon", "carotte", "mais", "aubergine", "oignon"};
         for(int i = 0; i<6; i++) {
             Case choixMenu = new Case(listeLegumes[i], true, -1, -1);
-            sideMenu.add(choixMenu);
+            menuLegumes.add(choixMenu);
         }
 
         Case arrosoir = new Case("arrosoir", true, -1, -1);
         Case engrais = new Case("engrais", true, -1, -1);
-        sideMenu.add(arrosoir);
-        sideMenu.add(engrais);
+        menuLegumes.add(arrosoir);
+        menuLegumes.add(engrais);
+        sideMenu.add(menuLegumes);
         
         sideMenu.add(affichageArgent);
-        //sideMenu.add(new Label("test"));
         
         
         GridBagConstraints c = new GridBagConstraints();
@@ -166,16 +159,6 @@ public class Vue extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         affichageArgent.setText("Vous avez "+P.getArgent()+"€.");
-        //System.out.println("je suis dans la vue");
-        // for (int i = 0; i < P.height; i++) {
-        //     for (int j = 0; j < P.width; j++) {
-        //         if (P.getParcelle(j, i).testImg) {
-        //             tabG[i][j].setBackground(new Color(0, 200, 0, 1));
-        //         } else {
-        //             tabG[i][j].setBackground(new Color(200, 0, 0, 1));
-        //         }
-        //     }
-        // }
     }
 
 }

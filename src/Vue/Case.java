@@ -53,13 +53,13 @@ public class Case extends JLabel implements Runnable{
         return this.contientLegume;
     }
 
-    public void setContientLegume(boolean contient) {
-        this.contientLegume = contient;
-    }
+    // public void setContientLegume(boolean contient) {
+    //     this.contientLegume = contient;
+    // }
 
-    public void setMaturite(boolean maturite) {
-        this.maturite = maturite;
-    }
+    // public void setMaturite(boolean maturite) {
+    //     this.maturite = maturite;
+    // }
 
     public Case(String nomImage, boolean estDansMenu, int i, int j) throws IOException {
         super();
@@ -190,6 +190,8 @@ public class Case extends JLabel implements Runnable{
             this.setIcon(icon);
         }
         else {
+            this.contientLegume = true;
+            this.scale = 1; //TODO à modifier avec la météo
             imageBuffer = ImageIO.read(new File("assets/data.png")); // chargement de l'image globale
             int[] coords = getCoordsImage(name);
             BufferedImage legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
@@ -210,6 +212,17 @@ public class Case extends JLabel implements Runnable{
         this.setIcon(icon);
 
         scale += scale<59?1:0; //augmente la scale si inférieur à 72
+    }
+
+    public void recolte() {
+        setBorder(BorderFactory.createLineBorder(Color.black,1));
+        this.contientLegume = false;
+        this.maturite = false;
+        try {
+            icone("terre");
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
     
 }
