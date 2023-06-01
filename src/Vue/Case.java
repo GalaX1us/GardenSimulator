@@ -26,7 +26,8 @@ public class Case extends JLabel implements Runnable{
     private String nomImage;
     private int scale;
     private Border bordureRecolte;
-    private BufferedImage imageBuffer;
+    private BufferedImage bufferLegume;
+    private ImageIcon iconeTerre;
     private boolean contientLegume;
     private boolean maturite;
     private int i;
@@ -67,7 +68,8 @@ public class Case extends JLabel implements Runnable{
         this.nomImage = nomImage;
         this.scale = 1;
         this.bordureRecolte = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN);
-        this.imageBuffer = null;
+        this.bufferLegume = null;
+        this.iconeTerre = null;
         this.maturite = false;
         this.contientLegume = false;
         this.i = i;
@@ -84,7 +86,15 @@ public class Case extends JLabel implements Runnable{
                 }
             });
         }
-        
+
+
+        BufferedImage imageBuffer = ImageIO.read(new File("assets/crops.png")); // chargement de l'image globale
+        BufferedImage terre = imageBuffer.getSubimage(64, 593, 65, 65); // image de la terre
+        ImageIcon icon = new ImageIcon(terre);
+        Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
+        icon = new ImageIcon(image);
+        this.iconeTerre = icon;
+
         icone(nomImage);
         if(estDansMenu) {
             Color grisClair = new Color(238, 238, 238);
@@ -166,16 +176,11 @@ public class Case extends JLabel implements Runnable{
 
         if(name.equals("terre") || name.equals("")) {
             this.nomImage = "terre"; // dans le cas où le nom est vide
-            imageBuffer = ImageIO.read(new File("assets/Terre.png"));
-            this.imageBuffer = imageBuffer;
-            ImageIcon icon = new ImageIcon(imageBuffer);
-            Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
-            icon = new ImageIcon(image);
-            this.setIcon(icon);
+            this.setIcon(this.iconeTerre);
         }
         else if(name.equals("arrosoir")) { //TODO progressbar pour l'utilisation de l'arrosoir qui fait avancer de 10 jours instant
             imageBuffer = ImageIO.read(new File("assets/arrosoir.png"));
-            this.imageBuffer = imageBuffer;
+            this.bufferLegume = imageBuffer;
             ImageIcon icon = new ImageIcon(imageBuffer);
             Image image = icon.getImage().getScaledInstance(64,64,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
@@ -183,7 +188,7 @@ public class Case extends JLabel implements Runnable{
         }
         else if(name.equals("engrais")) { //TODO achter avec l'argent et double l'argent récolté
             imageBuffer = ImageIO.read(new File("assets/engrais.png"));
-            this.imageBuffer = imageBuffer;
+            this.bufferLegume = imageBuffer;
             ImageIcon icon = new ImageIcon(imageBuffer);
             Image image = icon.getImage().getScaledInstance(64,64,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
@@ -195,7 +200,7 @@ public class Case extends JLabel implements Runnable{
             imageBuffer = ImageIO.read(new File("assets/data.png")); // chargement de l'image globale
             int[] coords = getCoordsImage(name);
             BufferedImage legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
-            this.imageBuffer = legume;
+            this.bufferLegume = legume;
             ImageIcon icon = new ImageIcon(legume);
             Image image = icon.getImage().getScaledInstance(79,79,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
@@ -207,8 +212,7 @@ public class Case extends JLabel implements Runnable{
 
     public void scale(float croissance) throws IOException {
         int augmentation = (int) (croissance*58f);
-        System.out.println(augmentation);
-        ImageIcon icon = new ImageIcon(this.imageBuffer);
+        ImageIcon icon = new ImageIcon(this.bufferLegume);
         Image image = icon.getImage().getScaledInstance(20+augmentation,20+augmentation,Image.SCALE_SMOOTH);
         icon = new ImageIcon(image);
         this.setIcon(icon);
