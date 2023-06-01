@@ -74,6 +74,7 @@ public class Meteo implements Runnable{
         temperature = donneesCSV.get(cmpt).get(3);
         ensoleillement = 1f-precipitation;
         cmpt = cmpt + 1;
+        if (cmpt == 3742) cmpt = 0;
     }
     
 }
