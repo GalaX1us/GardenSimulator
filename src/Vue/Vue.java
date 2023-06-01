@@ -152,7 +152,7 @@ public class Vue extends JFrame implements Observer {
         
         c.gridx = 1;
         c.weightx = 1;
-        c.insets = new Insets(30, 23, 0, 22);
+        c.insets = new Insets(30, 15, 0, 15);
         c.anchor = GridBagConstraints.NORTH;
         window.add(sideMenu, c);
         
@@ -167,7 +167,6 @@ public class Vue extends JFrame implements Observer {
             for(int j = 0; j<Potager.width; j++) {
                 if(P.getParcelle(i, j).getLegume()!=null) {
                     try {
-                        System.out.println(P.getParcelle(i, j).getLegume().croissance());
                         this.tabG[i][j].scale(P.getParcelle(i, j).getLegume().croissance());
                     } catch (IOException e) {
                         e.printStackTrace();
