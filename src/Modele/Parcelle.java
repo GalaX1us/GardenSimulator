@@ -43,9 +43,9 @@ public class Parcelle implements Runnable {
     }
 
     public float recolte(){
-        this.legume = null;
         float v = this.legume.getValue();
         if (this.booster) v*=2;
+        this.legume = null;
         return v;
     }
 

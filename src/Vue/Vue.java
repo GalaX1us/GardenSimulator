@@ -106,8 +106,8 @@ public class Vue extends JFrame implements Observer {
                                 int[] coords = casePotager.getCoords();
                                 Potager.getClick(coords[0],coords[1]);
                             }
-                            if(casePotager.getMaturite()) { // Si le légume est à maturité on le récolte
-                                P.ajoutArgent((int) P.getParcelle(ii, jj).getLegume().getValue());
+                            if(P.getParcelle(ii, jj).getLegume().isHarvestable()) { // Si le légume est à maturité on le récolte
+                                P.ajoutArgent((int) P.getParcelle(ii, jj).recolte());
                                 casePotager.recolte();
                             }
                         }
