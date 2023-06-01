@@ -26,7 +26,7 @@ public class Meteo implements Runnable{
         Ordonnanceur o = Ordonnanceur.getOrdonnanceur();
         o.addRunnable(this);
 
-        donneesCSV = new ArrayList<>(); //TODO
+        donneesCSV = new ArrayList<>();
         loadMeteo();
         cmpt = 0;
     }
