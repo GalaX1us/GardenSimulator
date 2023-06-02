@@ -50,7 +50,7 @@ public class Vue extends JFrame implements Observer {
         this.P = potager;
         this.tabG = new Case[Potager.height][Potager.width];
         this.affichageArgent = new Label("test", JLabel.CENTER);
-        affichageArgent.setFont(new Font("Serif", Font.PLAIN, 20)); //TODO augmenter la taille
+        affichageArgent.setFont(new Font("Serif", Font.PLAIN, 20));
 
         try {
             build();
@@ -79,7 +79,7 @@ public class Vue extends JFrame implements Observer {
         JPanel window = new JPanel(new GridBagLayout());
 
         // Création de la grille du potager
-        JComponent pan = new JPanel (new GridLayout(P.width, P.height));
+        JComponent pan = new JPanel (new GridLayout(Potager.width, Potager.height));
 
         // Remplissage de la grille d'images
         for(int i = 0; i<Potager.height;i++){
@@ -93,25 +93,32 @@ public class Vue extends JFrame implements Observer {
                 casePotager.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        if(!casePotager.getEstDansMenu()) {
+                        if(!casePotager.getEstDansMenu()) { // Case du potager
                             super.mouseClicked(e);
-                            if(!casePotager.getContientLegume()) { // On plante le légume
-
-                                try {
-                                    casePotager.icone(Potager.getSelection());
-                                    P.getParcelle(ii, jj).setLegume(Potager.getSelection());
-                                } catch (IOException e1) {
-                                    e1.printStackTrace();
+                            if(casePotager.getLocked()) { // Si la parcelle n'est pas encore débloquée, on la débloque si l'on a assez d'argent
+                                if(P.getArgent() >= 10) {
+                                    casePotager.unlock();
+                                    P.ajoutArgent(-10);
                                 }
-                                int[] coords = casePotager.getCoords();
-                                Potager.getClick(coords[0],coords[1]);
                             }
-                            if(P.getParcelle(ii, jj).getLegume().isHarvestable()) { // Si le légume est à maturité on le récolte
-                                P.ajoutArgent((int) P.getParcelle(ii, jj).recolte());
-                                casePotager.recolte();
+                            else if(!Potager.getSelection().equals("")) {
+                                if(!casePotager.getContientLegume() && !casePotager.getLocked()) { // On plante le légume
+                                    try {
+                                        casePotager.icone(Potager.getSelection());
+                                        P.getParcelle(ii, jj).setLegume(Potager.getSelection());
+                                    } catch (IOException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    int[] coords = casePotager.getCoords();
+                                    Potager.getClick(coords[0],coords[1]);
+                                }
+                                if(P.getParcelle(ii, jj).getLegume().isHarvestable()) { // Si le légume est à maturité on le récolte
+                                    P.ajoutArgent((int) P.getParcelle(ii, jj).recolte());
+                                    casePotager.recolte();
+                                }
                             }
                         }
-                        else {
+                        else { // Case du menu
                             Potager.setSelection(casePotager.getNomImage());
                             setBackground(Color.CYAN);
                         }
@@ -122,6 +129,13 @@ public class Vue extends JFrame implements Observer {
                 pan.add(casePotager);
             }
         }
+
+        // Débloquage des 4 premières cases pour commencer le jeu
+        this.tabG[0][0].unlock();
+        this.tabG[0][1].unlock();
+        this.tabG[1][0].unlock();
+        this.tabG[1][1].unlock();
+
 
         // Création du menu de choix de légume
         JComponent sideMenu = new JPanel(new GridLayout(2, 1));
@@ -152,7 +166,7 @@ public class Vue extends JFrame implements Observer {
         
         c.gridx = 1;
         c.weightx = 1;
-        c.insets = new Insets(30, 15, 0, 15);
+        c.insets = new Insets(15, 15, 0, 15);
         c.anchor = GridBagConstraints.NORTH;
         window.add(sideMenu, c);
         

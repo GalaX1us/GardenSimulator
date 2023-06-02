@@ -27,8 +27,8 @@ public class Case extends JLabel implements Runnable{
     private int scale;
     private Border bordureRecolte;
     private BufferedImage bufferLegume;
-    private ImageIcon iconeTerre;
     private boolean contientLegume;
+    private boolean locked;
     private boolean maturite;
     private int i;
     private int j;
@@ -54,6 +54,11 @@ public class Case extends JLabel implements Runnable{
         return this.contientLegume;
     }
 
+    public boolean getLocked() {
+        return this.locked;
+    }
+
+
     // public void setContientLegume(boolean contient) {
     //     this.contientLegume = contient;
     // }
@@ -69,9 +74,9 @@ public class Case extends JLabel implements Runnable{
         this.scale = 1;
         this.bordureRecolte = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN);
         this.bufferLegume = null;
-        this.iconeTerre = null;
         this.maturite = false;
         this.contientLegume = false;
+        this.locked = true;
         this.i = i;
         this.j = j;
 
@@ -86,14 +91,6 @@ public class Case extends JLabel implements Runnable{
                 }
             });
         }
-
-
-        BufferedImage imageBuffer = ImageIO.read(new File("assets/crops.png")); // chargement de l'image globale
-        BufferedImage terre = imageBuffer.getSubimage(64, 593, 65, 65); // image de la terre
-        ImageIcon icon = new ImageIcon(terre);
-        Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
-        icon = new ImageIcon(image);
-        this.iconeTerre = icon;
 
         icone(nomImage);
         if(estDansMenu) {
@@ -121,13 +118,6 @@ public class Case extends JLabel implements Runnable{
                 this.setBorder(bordureRecolte);
                 this.maturite = true;
             }
-            // else {
-            //     try {
-            //         scale();
-            //     } catch (IOException e) {
-            //         e.printStackTrace();
-            //     }
-            // }
         }
     }
 
@@ -176,7 +166,11 @@ public class Case extends JLabel implements Runnable{
 
         if(name.equals("terre") || name.equals("")) {
             this.nomImage = "terre"; // dans le cas où le nom est vide
-            this.setIcon(this.iconeTerre);
+            imageBuffer = this.locked ? ImageIO.read(new File("assets/spriteTerreLocked.png")) : ImageIO.read(new File("assets/spriteTerre.png"));
+            ImageIcon icon = new ImageIcon(imageBuffer);
+            Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
+            icon = new ImageIcon(image);
+            this.setIcon(icon);
         }
         else if(name.equals("arrosoir")) { //TODO progressbar pour l'utilisation de l'arrosoir qui fait avancer de 10 jours instant
             imageBuffer = ImageIO.read(new File("assets/arrosoir.png"));
@@ -228,6 +222,15 @@ public class Case extends JLabel implements Runnable{
             icone("terre");
         } catch (IOException e1) {
             e1.printStackTrace();
+        }
+    }
+
+    public void unlock() {
+        this.locked = false;
+        try {
+            icone("terre");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     
