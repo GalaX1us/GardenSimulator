@@ -49,8 +49,8 @@ public class Vue extends JFrame implements Observer {
 
         this.P = potager;
         this.tabG = new Case[Potager.height][Potager.width];
-        this.affichageArgent = new Label("test", JLabel.CENTER);
-        affichageArgent.setFont(new Font("Serif", Font.PLAIN, 20));
+        this.affichageArgent = new Label("Vous avez 0€.", JLabel.CENTER);
+        affichageArgent.setFont(new Font("Arial", Font.PLAIN, 20));
 
         try {
             build();
@@ -85,7 +85,8 @@ public class Vue extends JFrame implements Observer {
         for(int i = 0; i<Potager.height;i++){
             for(int j = 0; j<Potager.width;j++){
                 Case casePotager = new Case("terre", false, i ,j); //TODO faire un set opaque pour faire un setBackground pour montrer le taux d'humidité par exemple
-                
+                casePotager.setPrix(Math.max(i, j)*10-10);
+
                 int ii = i;
                 int jj = j;
 
@@ -96,9 +97,9 @@ public class Vue extends JFrame implements Observer {
                         if(!casePotager.getEstDansMenu()) { // Case du potager
                             super.mouseClicked(e);
                             if(casePotager.getLocked()) { // Si la parcelle n'est pas encore débloquée, on la débloque si l'on a assez d'argent
-                                if(P.getArgent() >= 10) {
+                                if(P.getArgent() >= casePotager.getPrix()) {
                                     casePotager.unlock();
-                                    P.ajoutArgent(-10);
+                                    P.ajoutArgent(-casePotager.getPrix());
                                 }
                             }
                             else if(!Potager.getSelection().equals("")) {

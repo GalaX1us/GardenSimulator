@@ -1,5 +1,6 @@
 package Vue;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,6 +30,7 @@ public class Case extends JLabel implements Runnable{
     private BufferedImage bufferLegume;
     private boolean contientLegume;
     private boolean locked;
+    private int prix;
     private boolean maturite;
     private int i;
     private int j;
@@ -58,6 +60,19 @@ public class Case extends JLabel implements Runnable{
         return this.locked;
     }
 
+    public int getPrix() {
+        return prix;
+    }
+
+    public void setPrix(int prix) {
+        this.prix = prix;
+        this.setText(Integer.toString(this.prix)+"€");
+        this.setHorizontalTextPosition(JLabel.CENTER);
+        this.setVerticalTextPosition(JLabel.CENTER);
+        this.setFont(new Font("Arial", Font.PLAIN, 25));
+        this.setForeground(Color.WHITE);
+    }
+
 
     // public void setContientLegume(boolean contient) {
     //     this.contientLegume = contient;
@@ -77,8 +92,10 @@ public class Case extends JLabel implements Runnable{
         this.maturite = false;
         this.contientLegume = false;
         this.locked = true;
+        this.prix = 0;
         this.i = i;
         this.j = j;
+
 
         Ordonnanceur.getOrdonnanceur().addRunnable(this);
 
@@ -232,6 +249,7 @@ public class Case extends JLabel implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.setText("");
     }
     
 }

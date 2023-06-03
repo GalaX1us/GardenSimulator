@@ -12,8 +12,8 @@ public class Potager {
     
 
     public Potager(int x, int y) {
-        this.height = y;
-        this.width = x;
+        Potager.height = y;
+        Potager.width = x;
         this.argent = 0;
         this.tab = new Parcelle[height][width];
         this.meteo = Meteo.getMeteo();
