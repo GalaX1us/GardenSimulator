@@ -115,11 +115,8 @@ public class Case extends JLabel implements Runnable{
             Border bordureExterne = BorderFactory.createLineBorder(grisClair, 3);
             Border bordureInterne = BorderFactory.createLineBorder(Color.BLACK, 2);
             setBorder(BorderFactory.createCompoundBorder(bordureExterne, bordureInterne));
+            setOpaque(true);
         }
-        else {
-            setBorder(BorderFactory.createLineBorder(Color.black,1));
-        }
-        setOpaque(true);
         setHorizontalAlignment(JLabel.CENTER);
     }
 

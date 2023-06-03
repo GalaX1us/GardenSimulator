@@ -22,6 +22,7 @@ import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -87,6 +88,24 @@ public class Vue extends JFrame implements Observer {
                 Case casePotager = new Case("terre", false, i ,j); //TODO faire un set opaque pour faire un setBackground pour montrer le taux d'humidité par exemple
                 casePotager.setPrix(Math.max(i, j)*10-10);
 
+
+                // Superposition de la case avec le fond en terre
+                JPanel caseTerre = new JPanel();
+
+                BufferedImage imageBuffer = ImageIO.read(new File("assets/spriteTerre.png"));
+                ImageIcon icon = new ImageIcon(imageBuffer);
+                Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
+                icon = new ImageIcon(image);
+                JLabel terre = new JLabel(icon);
+                terre.setBorder(BorderFactory.createLineBorder(Color.black,1));
+
+                caseTerre.setLayout(new GridBagLayout());
+                GridBagConstraints constraints = new GridBagConstraints();
+                constraints.gridx = 0;
+                constraints.gridy = 0;
+                caseTerre.add(casePotager, constraints);
+                caseTerre.add(terre, constraints);
+
                 int ii = i;
                 int jj = j;
 
@@ -127,7 +146,7 @@ public class Vue extends JFrame implements Observer {
                 });
                 
                 tabG[i][j] = casePotager;
-                pan.add(casePotager);
+                pan.add(caseTerre);
             }
         }
 
