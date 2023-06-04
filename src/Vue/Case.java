@@ -27,7 +27,6 @@ public class Case extends JLabel implements Runnable{
     private String nomImage;
     private int scale;
     private Border bordureRecolte;
-    private BufferedImage bufferLegume;
     private boolean contientLegume;
     private boolean locked;
     private int prix;
@@ -79,7 +78,6 @@ public class Case extends JLabel implements Runnable{
         this.nomImage = nomImage;
         this.scale = 1;
         this.bordureRecolte = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN);
-        this.bufferLegume = null;
         this.maturite = false;
         this.contientLegume = false;
         this.locked = true;
@@ -179,7 +177,6 @@ public class Case extends JLabel implements Runnable{
         }
         else if(name.equals("arrosoir")) { //TODO progressbar pour l'utilisation de l'arrosoir qui fait avancer de 10 jours instant
             imageBuffer = ImageIO.read(new File("assets/arrosoir.png"));
-            this.bufferLegume = imageBuffer;
             ImageIcon icon = new ImageIcon(imageBuffer);
             Image image = icon.getImage().getScaledInstance(64,64,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
@@ -187,7 +184,6 @@ public class Case extends JLabel implements Runnable{
         }
         else if(name.equals("engrais")) { //TODO achter avec l'argent et double l'argent récolté
             imageBuffer = ImageIO.read(new File("assets/engrais.png"));
-            this.bufferLegume = imageBuffer;
             ImageIcon icon = new ImageIcon(imageBuffer);
             Image image = icon.getImage().getScaledInstance(64,64,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
@@ -197,19 +193,21 @@ public class Case extends JLabel implements Runnable{
             this.contientLegume = true;
             this.scale = 1;
             BufferedImage legume = null;
+            Image image = null;
             if(!this.estDansMenu) {
-                legume = ImageIO.read(new File("assets/Legumes/"+name+"1.png"));
+                legume = ImageIO.read(new File("assets/Legumes/"+name+"1.png")); // étape 1 de croissance du légume
+                ImageIcon icon = new ImageIcon(legume);
+                image = icon.getImage().getScaledInstance(79,79,Image.SCALE_SMOOTH);
             }
             else {
-                imageBuffer = ImageIO.read(new File("assets/data.png"));
-                int[] coords = getCoordsImage(name);
-                legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
+                legume = ImageIO.read(new File("assets/Legumes/"+name+".png"));
+                //int[] coords = getCoordsImage(name);
+                //legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
+                ImageIcon icon = new ImageIcon(legume);
+                image = icon.getImage().getScaledInstance(70,70,Image.SCALE_SMOOTH);
             }
-            this.bufferLegume = legume;
-            ImageIcon icon = new ImageIcon(legume);
-            Image image = icon.getImage().getScaledInstance(79,79,Image.SCALE_SMOOTH);
-            icon = new ImageIcon(image);
-            this.setIcon(icon);
+            ImageIcon iconeLegume = new ImageIcon(image);
+            this.setIcon(iconeLegume);
         }
 
         
