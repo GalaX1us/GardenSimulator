@@ -80,6 +80,6 @@ public class Parcelle implements Runnable {
     }
     
     public void arroser() {
-        this.legume.addCroissance(0.5f);
+        this.legume.addCroissance(0.3f);
     }
 }
