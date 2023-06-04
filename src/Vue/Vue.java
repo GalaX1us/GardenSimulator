@@ -131,16 +131,16 @@ public class Vue extends JFrame implements Observer {
                                 Potager.ajoutArgent(-casePotager.getPrix());
                             }
                         }
-                        else if(Potager.getSelection().equals("arrosoir") && casePotager.getContientLegume()){
+                        else if(Potager.getSelection().equals("arrosoir") && casePotager.getContientLegume() && !P.getParcelle(ii, jj).getLegume().isHarvestable()){
                             P.getParcelle(ii, jj).arroser();
                         }
-                        else if(Potager.getSelection().equals("engrais") && casePotager.getContientLegume()){
+                        else if(Potager.getSelection().equals("engrais") && casePotager.getContientLegume() && !P.getParcelle(ii, jj).getLegume().isHarvestable()){
                             P.getParcelle(ii, jj).mettreEngrais();
                         }
-                        else if(!Potager.getSelection().equals("") && 
-                                (!Potager.getSelection().equals("arrosoir") &&  !P.getParcelle(ii, jj).getLegume().isHarvestable()) && 
-                                !Potager.getSelection().equals("engrais")) {
-                            if(!casePotager.getContientLegume() && !casePotager.getLocked()) { // On plante le légume
+                        else if(!Potager.getSelection().equals("")) {
+                            if(!casePotager.getContientLegume() && !casePotager.getLocked() &&
+                            !Potager.getSelection().equals("arrosoir") &&
+                            !Potager.getSelection().equals("engrais")) { // On plante le légume
                                 try {
                                     casePotager.icone(Potager.getSelection());
                                     P.getParcelle(ii, jj).setLegume(Potager.getSelection());
@@ -150,7 +150,7 @@ public class Vue extends JFrame implements Observer {
                                 int[] coords = casePotager.getCoords();
                                 Potager.getClick(coords[0],coords[1]);
                             }
-                            if(P.getParcelle(ii, jj).getLegume().isHarvestable()) { // Si le légume est à maturité on le récolte
+                            if(casePotager.getContientLegume() && P.getParcelle(ii, jj).getLegume().isHarvestable()) { // Si le légume est à maturité on le récolte
                                 Potager.ajoutArgent((int) P.getParcelle(ii, jj).recolte());
                                 casePotager.recolte();
                             }
