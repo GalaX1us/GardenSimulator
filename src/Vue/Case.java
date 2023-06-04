@@ -238,7 +238,7 @@ public class Case extends JLabel implements Runnable{
     }
 
     public void recolte() {
-        setBorder(BorderFactory.createLineBorder(Color.black,1));
+        setBorder(BorderFactory.createLineBorder(Color.black,0));
         this.contientLegume = false;
         this.maturite = false;
         try {

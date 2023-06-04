@@ -50,11 +50,6 @@ public class Meteo implements Runnable{
 
                 String[] result = ligne.split(",");
                 
-                //annee
-                ligneCSV.add(Float.parseFloat(result[0]));
-                //jour
-                ligneCSV.add(Float.parseFloat(result[1]));
-                //precipitation
                 ligneCSV.add((((Float.parseFloat(result[5])-2.251f)/4.743f)+1)/2);
                 //température
                 ligneCSV.add((((Float.parseFloat(result[6])-10.66f)/7.561f)+1)/2);
@@ -68,10 +63,9 @@ public class Meteo implements Runnable{
 
     @Override
     public void run() {
-        annee = donneesCSV.get(cmpt).get(0);
-        jour = donneesCSV.get(cmpt).get(1);
-        precipitation = donneesCSV.get(cmpt).get(2);
-        temperature = donneesCSV.get(cmpt).get(3);
+        Potager.nextDay();
+        precipitation = donneesCSV.get(cmpt).get(0);
+        temperature = donneesCSV.get(cmpt).get(1);
         ensoleillement = 1f-precipitation;
         cmpt = cmpt + 1;
     }
