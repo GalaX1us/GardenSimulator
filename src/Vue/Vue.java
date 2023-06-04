@@ -91,7 +91,7 @@ public class Vue extends JFrame implements Observer {
         for(int i = 0; i<Potager.height;i++){
             for(int j = 0; j<Potager.width;j++){
                 Case casePotager = new Case("terre", false, i ,j); //TODO faire un set opaque pour faire un setBackground pour montrer le taux d'humidité par exemple
-                casePotager.setPrix(Math.max(i, j)*10-10);
+                casePotager.setPrix((i+1)*(j+1)*5);
 
 
                 // Superposition de la case avec le fond en terre
