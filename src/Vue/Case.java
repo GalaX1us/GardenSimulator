@@ -69,7 +69,8 @@ public class Case extends JLabel implements Runnable{
         this.setHorizontalTextPosition(JLabel.CENTER);
         this.setVerticalTextPosition(JLabel.CENTER);
         this.setFont(new Font("Arial", Font.PLAIN, 25));
-        this.setForeground(Color.DARK_GRAY);
+        if(estDansMenu) this.setForeground(Color.black);
+        else this.setForeground(Color.white);
     }
 
     public Case(String nomImage, boolean estDansMenu, int i, int j) throws IOException {
