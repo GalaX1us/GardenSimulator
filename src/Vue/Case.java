@@ -176,7 +176,7 @@ public class Case extends JLabel implements Runnable{
     // Remplace l'icone de la case par l'image dont le nom est en paramètre
     public void icone(String name) throws IOException {
         this.nomImage = name;
-        BufferedImage imageBuffer;
+        BufferedImage imageBuffer = null;
 
         if(name.equals("terre") || name.equals("")) {
             this.nomImage = "terre"; // dans le cas où le nom est vide
@@ -205,9 +205,15 @@ public class Case extends JLabel implements Runnable{
         else {
             this.contientLegume = true;
             this.scale = 1;
-            imageBuffer = ImageIO.read(new File("assets/data.png")); // chargement de l'image globale
-            int[] coords = getCoordsImage(name);
-            BufferedImage legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
+            BufferedImage legume = null;
+            if(!this.estDansMenu) {
+                legume = ImageIO.read(new File("assets/Legumes/"+name+"1.png"));
+            }
+            else {
+                imageBuffer = ImageIO.read(new File("assets/data.png"));
+                int[] coords = getCoordsImage(name);
+                legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
+            }
             this.bufferLegume = legume;
             ImageIcon icon = new ImageIcon(legume);
             Image image = icon.getImage().getScaledInstance(79,79,Image.SCALE_SMOOTH);
@@ -219,13 +225,16 @@ public class Case extends JLabel implements Runnable{
     }
 
     public void scale(float croissance) throws IOException {
-        int augmentation = (int) (croissance*58f);
-        ImageIcon icon = new ImageIcon(this.bufferLegume);
-        Image image = icon.getImage().getScaledInstance(20+augmentation,20+augmentation,Image.SCALE_SMOOTH);
+        int stage = stageCroissance(croissance);
+        BufferedImage legume = ImageIO.read(new File("assets/Legumes/"+this.nomImage+stage+".png"));
+        ImageIcon icon = new ImageIcon(legume);
+        Image image = null;
+        if(stage==4) image = icon.getImage().getScaledInstance(78,78,Image.SCALE_SMOOTH);
+        else image = icon.getImage().getScaledInstance(79,79,Image.SCALE_SMOOTH);
         icon = new ImageIcon(image);
         this.setIcon(icon);
 
-        scale = augmentation+1;
+        scale = (int) (croissance*58f) + 1;
     }
 
     public void recolte() {
@@ -247,6 +256,13 @@ public class Case extends JLabel implements Runnable{
             e.printStackTrace();
         }
         this.setText("");
+    }
+
+    private int stageCroissance(float croissance) {
+        if(croissance < 0.33f) return 1;
+        if(croissance < 0.66f) return 2;
+        if(croissance < 0.99f) return 3;
+        return 4;
     }
     
 }
