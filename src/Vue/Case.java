@@ -69,7 +69,7 @@ public class Case extends JLabel implements Runnable{
         this.setHorizontalTextPosition(JLabel.CENTER);
         this.setVerticalTextPosition(JLabel.CENTER);
         this.setFont(new Font("Arial", Font.PLAIN, 25));
-        this.setForeground(Color.WHITE);
+        this.setForeground(Color.DARK_GRAY);
     }
 
     public Case(String nomImage, boolean estDansMenu, int i, int j) throws IOException {
@@ -92,8 +92,16 @@ public class Case extends JLabel implements Runnable{
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    Potager.setSelection(nomImage);
-                    setBackground(Color.CYAN);
+                    if(getLocked()) { // Si le légume n'est pas encore débloqué, on le débloque si l'on a assez d'argent
+                        if(Potager.getArgent() >= getPrix()) {
+                            unlock();
+                            Potager.ajoutArgent(-getPrix());
+                        }
+                    }
+                    else {
+                        Potager.setSelection(getNomImage());
+                        setBackground(Color.CYAN);
+                    }
                 }
             });
         }
@@ -175,14 +183,14 @@ public class Case extends JLabel implements Runnable{
             icon = new ImageIcon(image);
             this.setIcon(icon);
         }
-        else if(name.equals("arrosoir")) { //TODO progressbar pour l'utilisation de l'arrosoir qui fait avancer de 10 jours instant
+        else if(name.equals("arrosoir")) {
             imageBuffer = ImageIO.read(new File("assets/arrosoir.png"));
             ImageIcon icon = new ImageIcon(imageBuffer);
             Image image = icon.getImage().getScaledInstance(64,64,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
             this.setIcon(icon);
         }
-        else if(name.equals("engrais")) { //TODO achter avec l'argent et double l'argent récolté
+        else if(name.equals("engrais")) { 
             imageBuffer = ImageIO.read(new File("assets/engrais.png"));
             ImageIcon icon = new ImageIcon(imageBuffer);
             Image image = icon.getImage().getScaledInstance(64,64,Image.SCALE_SMOOTH);
@@ -200,7 +208,7 @@ public class Case extends JLabel implements Runnable{
                 image = icon.getImage().getScaledInstance(79,79,Image.SCALE_SMOOTH);
             }
             else {
-                legume = ImageIO.read(new File("assets/Legumes/"+name+".png"));
+                legume = this.locked ? ImageIO.read(new File("assets/Legumes/"+name+"Locked.png")) : ImageIO.read(new File("assets/Legumes/"+name+".png"));
                 //int[] coords = getCoordsImage(name);
                 //legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
                 ImageIcon icon = new ImageIcon(legume);
@@ -240,7 +248,8 @@ public class Case extends JLabel implements Runnable{
     public void unlock() {
         this.locked = false;
         try {
-            icone("terre");
+            if(this.estDansMenu) icone(this.nomImage);
+            else icone("terre");
         } catch (IOException e) {
             e.printStackTrace();
         }

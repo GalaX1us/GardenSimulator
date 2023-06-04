@@ -10,7 +10,7 @@ public class Potager {
     private Parcelle[][] tab;
     private Meteo meteo;
     private static String selection;
-    private int argent;
+    private static int argent;
     private static Calendar calendrier;
     
 
@@ -36,6 +36,7 @@ public class Potager {
 
     public String getMois(){
         String nomMois = new DateFormatSymbols().getMonths()[calendrier.get(Calendar.MONTH)];
+        nomMois = nomMois.substring(0, 1).toUpperCase() + nomMois.substring(1); //Majuscule
         return nomMois;
     }
 
@@ -89,11 +90,11 @@ public class Potager {
         
     }
     
-    public void ajoutArgent(int argent) {
-        this.argent += argent;
+    public static void ajoutArgent(int argent) {
+        Potager.argent += argent;
     }
 
-    public int getArgent() {
-        return this.argent;
+    public static int getArgent() {
+        return Potager.argent;
     }
 }
