@@ -2,10 +2,10 @@ package Legumes;
 
 import Modele.Legume;
 
-public class Mais extends Legume {
-    public Mais(){
+public class Poireau extends Legume {
+    public Poireau(){
         super();
-        this.value = 10;
+        this.value = 30;
     }
 
     @Override
@@ -16,4 +16,5 @@ public class Mais extends Legume {
         }
         if (this.croissance>=1) this.harvestable = true;
     }
+    
 }

@@ -4,9 +4,9 @@ import java.time.YearMonth;
 
 import Legumes.Aubergine;
 import Legumes.Carotte;
-import Legumes.Champignon;
-import Legumes.Mais;
-import Legumes.Oignon;
+import Legumes.Chou;
+import Legumes.Citrouille;
+import Legumes.Poireau;
 import Legumes.Salade;
 
 public class Parcelle implements Runnable {
@@ -55,20 +55,20 @@ public class Parcelle implements Runnable {
             case "salade":
                 this.legume = new Salade();
                 break;
-            case "champignon":
-                this.legume = new Champignon();
+            case "chou":
+                this.legume = new Chou();
                 break;
             case "carotte":
                 this.legume = new Carotte();
                 break;
-            case "mais":
-                this.legume = new Mais();
+            case "citrouille":
+                this.legume = new Citrouille();
                 break;
             case "aubergine":
                 this.legume = new Aubergine();
                 break;
-            case "oignon":
-                this.legume = new Oignon();
+            case "poireau":
+                this.legume = new Poireau();
                 break;
             default:
                 break;

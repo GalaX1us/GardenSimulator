@@ -2,10 +2,10 @@ package Legumes;
 
 import Modele.Legume;
 
-public class Champignon extends Legume {
-    public Champignon(){
+public class Citrouille extends Legume {
+    public Citrouille(){
         super();
-        this.value = 10;
+        this.value = 35;
     }
 
     @Override

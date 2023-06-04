@@ -52,7 +52,7 @@ public class Vue extends JFrame implements Observer {
 
         this.P = potager;
         this.tabG = new Case[Potager.height][Potager.width];
-        this.affichageArgent = new Label("Vous avez 0€.", JLabel.CENTER);
+        this.affichageArgent = new Label("Money : 0$", JLabel.CENTER);
         affichageArgent.setFont(new Font("Arial", Font.PLAIN, 20));
 
         this.affichageDate = new Label("", JLabel.CENTER);
@@ -171,7 +171,7 @@ public class Vue extends JFrame implements Observer {
         // Création du menu de choix de légume
         JComponent sideMenu = new JPanel(new GridLayout(2, 1));
         JComponent menuLegumes = new JPanel(new GridLayout(4, 2));
-        String[] listeLegumes = {"salade", "champignon", "carotte", "mais", "aubergine", "oignon"};
+        String[] listeLegumes = {"salade", "chou", "carotte", "poireau", "aubergine", "citrouille"};
         for(int i = 0; i<6; i++) {
             Case choixMenu = new Case(listeLegumes[i], true, -1, -1);
             menuLegumes.add(choixMenu);
@@ -207,7 +207,7 @@ public class Vue extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        affichageArgent.setText("Vous avez "+P.getArgent()+"€.");
+        affichageArgent.setText("Money "+P.getArgent()+"$");
         affichageDate.setText(P.getMois()+" "+P.getAnnee()+" ("+P.getSaison()+")");
         for(int i = 0; i<Potager.height; i++) {
             for(int j = 0; j<Potager.width; j++) {

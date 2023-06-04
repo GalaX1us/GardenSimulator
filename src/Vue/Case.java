@@ -66,21 +66,12 @@ public class Case extends JLabel implements Runnable{
 
     public void setPrix(int prix) {
         this.prix = prix;
-        this.setText(Integer.toString(this.prix)+"€");
+        this.setText(Integer.toString(this.prix)+"$");
         this.setHorizontalTextPosition(JLabel.CENTER);
         this.setVerticalTextPosition(JLabel.CENTER);
         this.setFont(new Font("Arial", Font.PLAIN, 25));
         this.setForeground(Color.WHITE);
     }
-
-
-    // public void setContientLegume(boolean contient) {
-    //     this.contientLegume = contient;
-    // }
-
-    // public void setMaturite(boolean maturite) {
-    //     this.maturite = maturite;
-    // }
 
     public Case(String nomImage, boolean estDansMenu, int i, int j) throws IOException {
         super();

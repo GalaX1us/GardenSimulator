@@ -5,7 +5,7 @@ import Modele.Legume;
 public class Carotte extends Legume {
     public Carotte(){
         super();
-        this.value = 10;
+        this.value = 15;
     }
 
     @Override

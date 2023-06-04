@@ -51,13 +51,13 @@ public class Potager {
 
         String saison;
         if ((moisCalendrier == Calendar.DECEMBER && jourCalendrier >= 21) || (moisCalendrier == Calendar.JANUARY) || (moisCalendrier == Calendar.FEBRUARY) || (moisCalendrier == Calendar.MARCH && jourCalendrier < 20)) {
-            saison = "Hiver";
+            saison = "Winter";
         } else if ((moisCalendrier == Calendar.MARCH && jourCalendrier >= 20) || (moisCalendrier == Calendar.APRIL) || (moisCalendrier == Calendar.MAY) || (moisCalendrier == Calendar.JUNE && jourCalendrier < 21)) {
-            saison = "Printemps";
+            saison = "Spring";
         } else if ((moisCalendrier == Calendar.JUNE && jourCalendrier >= 21) || (moisCalendrier == Calendar.JULY) || (moisCalendrier == Calendar.AUGUST) || (moisCalendrier == Calendar.SEPTEMBER && jourCalendrier < 23)) {
-            saison = "Été";
+            saison = "Summer";
         } else {
-            saison = "Automne";
+            saison = "Autumn";
         }
         
         // Retourner la saison
