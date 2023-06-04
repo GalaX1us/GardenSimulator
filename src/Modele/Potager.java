@@ -1,6 +1,8 @@
 package Modele;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Calendar;
+import java.text.DateFormatSymbols;
 
 public class Potager {
     public static int height;
@@ -9,6 +11,7 @@ public class Potager {
     private Meteo meteo;
     private static String selection;
     private int argent;
+    private static Calendar calendrier;
     
 
     public Potager(int x, int y) {
@@ -23,7 +26,42 @@ public class Potager {
                 this.tab[i][j] = new Parcelle();
             }
         }
+        calendrier = Calendar.getInstance();
+        calendrier.set(2023, 0, 1);
+    }
 
+    public static void nextDay(){
+        calendrier.add(Calendar.DAY_OF_YEAR, 1);
+    }
+
+    public String getMois(){
+        String nomMois = new DateFormatSymbols().getMonths()[calendrier.get(Calendar.MONTH)];
+        return nomMois;
+    }
+
+    public String getAnnee(){
+        return String.valueOf(calendrier.get(Calendar.YEAR));
+         
+    }
+
+    public String getSaison(){
+
+        int moisCalendrier = calendrier.get(Calendar.MONTH);
+        int jourCalendrier = calendrier.get(Calendar.DAY_OF_MONTH);
+
+        String saison;
+        if ((moisCalendrier == Calendar.DECEMBER && jourCalendrier >= 21) || (moisCalendrier == Calendar.JANUARY) || (moisCalendrier == Calendar.FEBRUARY) || (moisCalendrier == Calendar.MARCH && jourCalendrier < 20)) {
+            saison = "Hiver";
+        } else if ((moisCalendrier == Calendar.MARCH && jourCalendrier >= 20) || (moisCalendrier == Calendar.APRIL) || (moisCalendrier == Calendar.MAY) || (moisCalendrier == Calendar.JUNE && jourCalendrier < 21)) {
+            saison = "Printemps";
+        } else if ((moisCalendrier == Calendar.JUNE && jourCalendrier >= 21) || (moisCalendrier == Calendar.JULY) || (moisCalendrier == Calendar.AUGUST) || (moisCalendrier == Calendar.SEPTEMBER && jourCalendrier < 23)) {
+            saison = "Été";
+        } else {
+            saison = "Automne";
+        }
+        
+        // Retourner la saison
+        return saison;
     }
 
     public void addObserver(Observer ob){

@@ -44,6 +44,8 @@ public class Vue extends JFrame implements Observer {
     private static int WIDTH = 900;
     private static int HEIGHT = 700;
     private Label affichageArgent;
+    private Label affichageDate;
+
 
     public Vue(Potager potager) {
         super();
@@ -52,6 +54,9 @@ public class Vue extends JFrame implements Observer {
         this.tabG = new Case[Potager.height][Potager.width];
         this.affichageArgent = new Label("Vous avez 0€.", JLabel.CENTER);
         affichageArgent.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        this.affichageDate = new Label("", JLabel.CENTER);
+        affichageDate.setFont(new Font("Arial", Font.PLAIN, 20));
 
         try {
             build();
@@ -178,7 +183,7 @@ public class Vue extends JFrame implements Observer {
         menuLegumes.add(engrais);
         sideMenu.add(menuLegumes);
         
-        sideMenu.add(affichageArgent);
+        sideMenu.add(affichageDate);
         
         
         GridBagConstraints c = new GridBagConstraints();
@@ -203,6 +208,7 @@ public class Vue extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         affichageArgent.setText("Vous avez "+P.getArgent()+"€.");
+        affichageDate.setText(P.getMois()+" "+P.getAnnee()+" ("+P.getSaison()+")");
         for(int i = 0; i<Potager.height; i++) {
             for(int j = 0; j<Potager.width; j++) {
                 if(P.getParcelle(i, j).getLegume()!=null) {
