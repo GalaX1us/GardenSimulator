@@ -52,7 +52,7 @@ public class Vue extends JFrame implements Observer {
 
         this.P = potager;
         this.tabG = new Case[Potager.height][Potager.width];
-        this.affichageArgent = new Label("Money : 0$", JLabel.CENTER);
+        this.affichageArgent = new Label("Argent : 0€", JLabel.CENTER);
         affichageArgent.setFont(new Font("Arial", Font.PLAIN, 20));
 
         this.affichageDate = new Label("", JLabel.CENTER);
@@ -207,7 +207,7 @@ public class Vue extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        affichageArgent.setText("Money "+P.getArgent()+"$");
+        affichageArgent.setText("Argent "+P.getArgent()+"€");
         affichageDate.setText(P.getMois()+" "+P.getAnnee()+" ("+P.getSaison()+")");
         for(int i = 0; i<Potager.height; i++) {
             for(int j = 0; j<Potager.width; j++) {

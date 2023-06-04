@@ -66,7 +66,7 @@ public class Case extends JLabel implements Runnable{
 
     public void setPrix(int prix) {
         this.prix = prix;
-        this.setText(Integer.toString(this.prix)+"$");
+        this.setText(Integer.toString(this.prix)+"€");
         this.setHorizontalTextPosition(JLabel.CENTER);
         this.setVerticalTextPosition(JLabel.CENTER);
         this.setFont(new Font("Arial", Font.PLAIN, 25));
