@@ -25,4 +25,11 @@ public abstract class Legume {
     public float croissance(){
         return this.croissance;
     }
+
+    public void addCroissance(float value){
+        this.croissance = value;
+        if( this.croissance > 1){
+            this.croissance = 1;
+        }
+    }
 }

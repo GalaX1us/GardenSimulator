@@ -46,6 +46,7 @@ public class Parcelle implements Runnable {
         float v = this.legume.getValue();
         if (this.booster) v*=2;
         this.legume = null;
+        this.booster = false;
         return v;
     }
 
@@ -72,5 +73,13 @@ public class Parcelle implements Runnable {
             default:
                 break;
         }
+    }
+
+    public void mettreEngrais() {
+        this.booster = true;
+    }
+    
+    public void arroser() {
+        this.legume.addCroissance(0.5f);
     }
 }
