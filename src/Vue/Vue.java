@@ -131,7 +131,7 @@ public class Vue extends JFrame implements Observer {
                                 Potager.ajoutArgent(-casePotager.getPrix());
                             }
                         }
-                        else if(Potager.getSelection().equals("arrosoir") && casePotager.getContientLegume()){
+                        else if(Potager.getSelection().equals("arrosoir") && casePotager.getContientLegume() && !P.getParcelle(ii, jj).getLegume().isHarvestable()){
                             P.getParcelle(ii, jj).arroser();
                         }
                         else if(Potager.getSelection().equals("engrais") && casePotager.getContientLegume()){
