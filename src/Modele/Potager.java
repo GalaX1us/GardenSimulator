@@ -17,7 +17,7 @@ public class Potager {
     public Potager(int x, int y) {
         Potager.height = y;
         Potager.width = x;
-        this.argent = 0;
+        this.argent = 10000;
         this.tab = new Parcelle[height][width];
         this.meteo = Meteo.getMeteo();
         Potager.selection = "";

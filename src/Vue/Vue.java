@@ -123,7 +123,7 @@ public class Vue extends JFrame implements Observer {
                 // Gestion du clic de la case
                 casePotager.addMouseListener(new MouseAdapter() {
                     @Override
-                    public void mouseClicked(MouseEvent e) {
+                    public void mousePressed(MouseEvent e) {
                         super.mouseClicked(e);
                         if(casePotager.getLocked()) { // Si la parcelle n'est pas encore débloquée, on la débloque si l'on a assez d'argent
                             if(Potager.getArgent() >= casePotager.getPrix()) {

@@ -92,7 +92,7 @@ public class Case extends JLabel implements Runnable{
         if(estDansMenu) {
             addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mousePressed(MouseEvent e) {
                     if(getLocked()) { // Si le légume n'est pas encore débloqué, on le débloque si l'on a assez d'argent
                         if(Potager.getArgent() >= getPrix()) {
                             unlock();
