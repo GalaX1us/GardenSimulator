@@ -1,8 +1,7 @@
 package Modele;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Calendar;
 import java.text.DateFormatSymbols;
+import java.util.Calendar;
+import java.util.Observer;
 
 public class Potager {
     public static int height;

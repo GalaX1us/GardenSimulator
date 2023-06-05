@@ -10,13 +10,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.border.Border;
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 import Modele.Ordonnanceur;
 import Modele.Potager;

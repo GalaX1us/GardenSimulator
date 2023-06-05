@@ -1,7 +1,5 @@
 package Modele;
 
-import java.time.YearMonth;
-
 import Legumes.Aubergine;
 import Legumes.Carotte;
 import Legumes.Chou;
