@@ -1,5 +1,6 @@
 package Vue;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,13 +10,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.border.Border;
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 import Modele.Ordonnanceur;
 import Modele.Potager;
@@ -26,9 +23,9 @@ public class Case extends JLabel implements Runnable{
     private String nomImage;
     private int scale;
     private Border bordureRecolte;
-    private BufferedImage bufferLegume;
-    private ImageIcon iconeTerre;
     private boolean contientLegume;
+    private boolean locked;
+    private int prix;
     private boolean maturite;
     private int i;
     private int j;
@@ -54,13 +51,23 @@ public class Case extends JLabel implements Runnable{
         return this.contientLegume;
     }
 
-    // public void setContientLegume(boolean contient) {
-    //     this.contientLegume = contient;
-    // }
+    public boolean getLocked() {
+        return this.locked;
+    }
 
-    // public void setMaturite(boolean maturite) {
-    //     this.maturite = maturite;
-    // }
+    public int getPrix() {
+        return prix;
+    }
+
+    public void setPrix(int prix) {
+        this.prix = prix;
+        this.setText(Integer.toString(this.prix)+"€");
+        this.setHorizontalTextPosition(JLabel.CENTER);
+        this.setVerticalTextPosition(JLabel.CENTER);
+        this.setFont(new Font("Arial", Font.PLAIN, 25));
+        if(estDansMenu) this.setForeground(Color.black);
+        else this.setForeground(Color.white);
+    }
 
     public Case(String nomImage, boolean estDansMenu, int i, int j) throws IOException {
         super();
@@ -68,32 +75,33 @@ public class Case extends JLabel implements Runnable{
         this.nomImage = nomImage;
         this.scale = 1;
         this.bordureRecolte = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN);
-        this.bufferLegume = null;
-        this.iconeTerre = null;
         this.maturite = false;
         this.contientLegume = false;
+        this.locked = true;
+        this.prix = 0;
         this.i = i;
         this.j = j;
+
 
         Ordonnanceur.getOrdonnanceur().addRunnable(this);
 
         if(estDansMenu) {
             addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    Potager.setSelection(nomImage);
-                    setBackground(Color.CYAN);
+                public void mousePressed(MouseEvent e) {
+                    if(getLocked()) { // Si le légume n'est pas encore débloqué, on le débloque si l'on a assez d'argent
+                        if(Potager.getArgent() >= getPrix()) {
+                            unlock();
+                            Potager.ajoutArgent(-getPrix());
+                        }
+                    }
+                    else {
+                        Potager.setSelection(getNomImage());
+                        setBackground(Color.CYAN);
+                    }
                 }
             });
         }
-
-
-        BufferedImage imageBuffer = ImageIO.read(new File("assets/crops.png")); // chargement de l'image globale
-        BufferedImage terre = imageBuffer.getSubimage(64, 593, 65, 65); // image de la terre
-        ImageIcon icon = new ImageIcon(terre);
-        Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
-        icon = new ImageIcon(image);
-        this.iconeTerre = icon;
 
         icone(nomImage);
         if(estDansMenu) {
@@ -101,11 +109,8 @@ public class Case extends JLabel implements Runnable{
             Border bordureExterne = BorderFactory.createLineBorder(grisClair, 3);
             Border bordureInterne = BorderFactory.createLineBorder(Color.BLACK, 2);
             setBorder(BorderFactory.createCompoundBorder(bordureExterne, bordureInterne));
+            setOpaque(true);
         }
-        else {
-            setBorder(BorderFactory.createLineBorder(Color.black,1));
-        }
-        setOpaque(true);
         setHorizontalAlignment(JLabel.CENTER);
     }
 
@@ -121,13 +126,6 @@ public class Case extends JLabel implements Runnable{
                 this.setBorder(bordureRecolte);
                 this.maturite = true;
             }
-            // else {
-            //     try {
-            //         scale();
-            //     } catch (IOException e) {
-            //         e.printStackTrace();
-            //     }
-            // }
         }
     }
 
@@ -172,23 +170,25 @@ public class Case extends JLabel implements Runnable{
     // Remplace l'icone de la case par l'image dont le nom est en paramètre
     public void icone(String name) throws IOException {
         this.nomImage = name;
-        BufferedImage imageBuffer;
+        BufferedImage imageBuffer = null;
 
         if(name.equals("terre") || name.equals("")) {
             this.nomImage = "terre"; // dans le cas où le nom est vide
-            this.setIcon(this.iconeTerre);
+            imageBuffer = this.locked ? ImageIO.read(new File("assets/spriteTerreLocked.png")) : ImageIO.read(new File("assets/spriteTerre.png"));
+            ImageIcon icon = new ImageIcon(imageBuffer);
+            Image image = icon.getImage().getScaledInstance(82,82,Image.SCALE_SMOOTH);
+            icon = new ImageIcon(image);
+            this.setIcon(icon);
         }
-        else if(name.equals("arrosoir")) { //TODO progressbar pour l'utilisation de l'arrosoir qui fait avancer de 10 jours instant
+        else if(name.equals("arrosoir")) {
             imageBuffer = ImageIO.read(new File("assets/arrosoir.png"));
-            this.bufferLegume = imageBuffer;
             ImageIcon icon = new ImageIcon(imageBuffer);
             Image image = icon.getImage().getScaledInstance(64,64,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
             this.setIcon(icon);
         }
-        else if(name.equals("engrais")) { //TODO achter avec l'argent et double l'argent récolté
+        else if(name.equals("engrais")) { 
             imageBuffer = ImageIO.read(new File("assets/engrais.png"));
-            this.bufferLegume = imageBuffer;
             ImageIcon icon = new ImageIcon(imageBuffer);
             Image image = icon.getImage().getScaledInstance(64,64,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
@@ -197,31 +197,42 @@ public class Case extends JLabel implements Runnable{
         else {
             this.contientLegume = true;
             this.scale = 1;
-            imageBuffer = ImageIO.read(new File("assets/data.png")); // chargement de l'image globale
-            int[] coords = getCoordsImage(name);
-            BufferedImage legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
-            this.bufferLegume = legume;
-            ImageIcon icon = new ImageIcon(legume);
-            Image image = icon.getImage().getScaledInstance(79,79,Image.SCALE_SMOOTH);
-            icon = new ImageIcon(image);
-            this.setIcon(icon);
+            BufferedImage legume = null;
+            Image image = null;
+            if(!this.estDansMenu) {
+                legume = ImageIO.read(new File("assets/Legumes/"+name+"1.png")); // étape 1 de croissance du légume
+                ImageIcon icon = new ImageIcon(legume);
+                image = icon.getImage().getScaledInstance(79,79,Image.SCALE_SMOOTH);
+            }
+            else {
+                legume = this.locked ? ImageIO.read(new File("assets/Legumes/"+name+"Locked.png")) : ImageIO.read(new File("assets/Legumes/"+name+".png"));
+                //int[] coords = getCoordsImage(name);
+                //legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
+                ImageIcon icon = new ImageIcon(legume);
+                image = icon.getImage().getScaledInstance(70,70,Image.SCALE_SMOOTH);
+            }
+            ImageIcon iconeLegume = new ImageIcon(image);
+            this.setIcon(iconeLegume);
         }
 
         
     }
 
     public void scale(float croissance) throws IOException {
-        int augmentation = (int) (croissance*58f);
-        ImageIcon icon = new ImageIcon(this.bufferLegume);
-        Image image = icon.getImage().getScaledInstance(20+augmentation,20+augmentation,Image.SCALE_SMOOTH);
+        int stage = stageCroissance(croissance);
+        BufferedImage legume = ImageIO.read(new File("assets/Legumes/"+this.nomImage+stage+".png"));
+        ImageIcon icon = new ImageIcon(legume);
+        Image image = null;
+        if(stage==4) image = icon.getImage().getScaledInstance(78,78,Image.SCALE_SMOOTH);
+        else image = icon.getImage().getScaledInstance(79,79,Image.SCALE_SMOOTH);
         icon = new ImageIcon(image);
         this.setIcon(icon);
 
-        scale = augmentation+1;
+        scale = (int) (croissance*58f) + 1;
     }
 
     public void recolte() {
-        setBorder(BorderFactory.createLineBorder(Color.black,1));
+        setBorder(BorderFactory.createLineBorder(Color.black,0));
         this.contientLegume = false;
         this.maturite = false;
         try {
@@ -229,6 +240,24 @@ public class Case extends JLabel implements Runnable{
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+    }
+
+    public void unlock() {
+        this.locked = false;
+        try {
+            if(this.estDansMenu) icone(this.nomImage);
+            else icone("terre");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.setText("");
+    }
+
+    private int stageCroissance(float croissance) {
+        if(croissance < 0.33f) return 1;
+        if(croissance < 0.66f) return 2;
+        if(croissance < 0.99f) return 3;
+        return 4;
     }
     
 }

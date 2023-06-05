@@ -1,5 +1,6 @@
 package Modele;
-import java.util.Observable;
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
 import java.util.Observer;
 
 public class Potager {
@@ -8,7 +9,8 @@ public class Potager {
     private Parcelle[][] tab;
     private Meteo meteo;
     private static String selection;
-    private int argent;
+    private static int argent;
+    private static Calendar calendrier;
     
     /**
      * Constructeur par défaut de Potager
@@ -16,11 +18,9 @@ public class Potager {
      * @param y nombre de colonne du potager
      */
     public Potager(int x, int y) {
-        this.height = y;
-        this.width = x;
-        this.argent = 0;
-
-        //créé le tableau des parcelle
+        Potager.height = y;
+        Potager.width = x;
+        this.argent = 10000;
         this.tab = new Parcelle[height][width];
 
         //initialise la météo
@@ -33,7 +33,43 @@ public class Potager {
                 this.tab[i][j] = new Parcelle();
             }
         }
+        calendrier = Calendar.getInstance();
+        calendrier.set(2023, 0, 1);
+    }
 
+    public static void nextDay(){
+        calendrier.add(Calendar.DAY_OF_YEAR, 1);
+    }
+
+    public String getMois(){
+        String nomMois = new DateFormatSymbols().getMonths()[calendrier.get(Calendar.MONTH)];
+        nomMois = nomMois.substring(0, 1).toUpperCase() + nomMois.substring(1); //Majuscule
+        return nomMois;
+    }
+
+    public String getAnnee(){
+        return String.valueOf(calendrier.get(Calendar.YEAR));
+         
+    }
+
+    public String getSaison(){
+
+        int moisCalendrier = calendrier.get(Calendar.MONTH);
+        int jourCalendrier = calendrier.get(Calendar.DAY_OF_MONTH);
+
+        String saison;
+        if ((moisCalendrier == Calendar.DECEMBER && jourCalendrier >= 21) || (moisCalendrier == Calendar.JANUARY) || (moisCalendrier == Calendar.FEBRUARY) || (moisCalendrier == Calendar.MARCH && jourCalendrier < 20)) {
+            saison = "Hiver";
+        } else if ((moisCalendrier == Calendar.MARCH && jourCalendrier >= 20) || (moisCalendrier == Calendar.APRIL) || (moisCalendrier == Calendar.MAY) || (moisCalendrier == Calendar.JUNE && jourCalendrier < 21)) {
+            saison = "Printemps";
+        } else if ((moisCalendrier == Calendar.JUNE && jourCalendrier >= 21) || (moisCalendrier == Calendar.JULY) || (moisCalendrier == Calendar.AUGUST) || (moisCalendrier == Calendar.SEPTEMBER && jourCalendrier < 23)) {
+            saison = "Été";
+        } else {
+            saison = "Automne";
+        }
+        
+        // Retourner la saison
+        return saison;
     }
 
     /**

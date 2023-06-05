@@ -1,10 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-import javax.swing.SwingUtilities;
-
 import Modele.Ordonnanceur;
 import Modele.Potager;
 import Vue.Vue;

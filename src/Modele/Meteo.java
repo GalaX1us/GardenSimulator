@@ -4,7 +4,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 public class Meteo implements Runnable{
 
@@ -86,10 +85,9 @@ public class Meteo implements Runnable{
      * Elle permet de mettre a jour les données météo en changeant de jour
      */
     public void run() {
-        annee = donneesCSV.get(cmpt).get(0);
-        jour = donneesCSV.get(cmpt).get(1);
-        precipitation = donneesCSV.get(cmpt).get(2);
-        temperature = donneesCSV.get(cmpt).get(3);
+        Potager.nextDay();
+        precipitation = donneesCSV.get(cmpt).get(0);
+        temperature = donneesCSV.get(cmpt).get(1);
         ensoleillement = 1f-precipitation;
         cmpt = cmpt + 1;
 
