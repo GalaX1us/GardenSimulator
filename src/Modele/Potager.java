@@ -111,15 +111,15 @@ public class Potager {
      * Permet d'ajouter de l'argent au solde
      * @param argent le montant à ajouter
      */
-    public void ajoutArgent(int argent) {
-        this.argent += argent;
+    public static void ajoutArgent(int argent) {
+        Potager.argent += argent;
     }
 
     /**
      * Permet de renvoyer la solde d'argent
      * @return la solde d'argent
      */
-    public int getArgent() {
-        return this.argent;
+    public static int getArgent() {
+        return Potager.argent;
     }
 }
