@@ -20,6 +20,9 @@ public class Meteo implements Runnable{
 
     private static Meteo m;
 
+    /**
+     * Constructeur apr defaut de Météo
+     */
     public Meteo(){
         super();
         Ordonnanceur o = Ordonnanceur.getOrdonnanceur();
@@ -30,6 +33,10 @@ public class Meteo implements Runnable{
         cmpt = 0;
     }
 
+    /**
+     * Permet de renvoyer l'instance de la météo (en la créant si elle n'existe pas)
+     * @return l'instance de météo
+     */
     public static Meteo getMeteo(){
         if (m==null){
             m = new Meteo();
@@ -37,6 +44,9 @@ public class Meteo implements Runnable{
         return m;
     }
 
+    /**
+     * Permet de charger la météo a partir d'un fichier csv
+     */
     public void loadMeteo(){
 
         String cheminFichier = "assets/meteo_data.csv";
@@ -44,11 +54,19 @@ public class Meteo implements Runnable{
         try (BufferedReader br = new BufferedReader(new FileReader(cheminFichier))) {
             String ligne;
 
+            // lis chaque ligne
             while ((ligne = br.readLine()) != null) {
                 List<Float> ligneCSV = new ArrayList<>();
 
                 String[] result = ligne.split(",");
                 
+                // parse les résultats et normalisation des valeur pour qu'elles soient entre 0 et 1
+
+                //annee
+                ligneCSV.add(Float.parseFloat(result[0]));
+                //jour
+                ligneCSV.add(Float.parseFloat(result[1]));
+                //precipitation
                 ligneCSV.add((((Float.parseFloat(result[5])-2.251f)/4.743f)+1)/2);
                 //température
                 ligneCSV.add((((Float.parseFloat(result[6])-10.66f)/7.561f)+1)/2);
@@ -60,13 +78,21 @@ public class Meteo implements Runnable{
         }
     }
 
+    
     @Override
+    /**
+     * Méthode appelée à chaque execution du thread
+     * Elle permet de mettre a jour les données météo en changeant de jour
+     */
     public void run() {
         Potager.nextDay();
         precipitation = donneesCSV.get(cmpt).get(0);
         temperature = donneesCSV.get(cmpt).get(1);
         ensoleillement = 1f-precipitation;
         cmpt = cmpt + 1;
+
+        //permet de cycler pour éviter toute erreur
+        if (cmpt == 3742) cmpt = 0;
     }
     
 }
