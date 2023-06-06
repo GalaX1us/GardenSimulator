@@ -17,6 +17,9 @@ import javax.swing.border.Border;
 import Modele.Ordonnanceur;
 import Modele.Potager;
 
+/**
+ * Classe qui gère l'affichage graphique des parcelles du potager
+ */
 public class Case extends JLabel implements Runnable{
 
     private boolean estDansMenu;
@@ -59,6 +62,10 @@ public class Case extends JLabel implements Runnable{
         return prix;
     }
 
+    /**
+     * Applique un prix pour débloquer la case, et l'affiche
+     * @param prix
+     */
     public void setPrix(int prix) {
         this.prix = prix;
         this.setText(Integer.toString(this.prix)+"€");
@@ -69,6 +76,14 @@ public class Case extends JLabel implements Runnable{
         else this.setForeground(Color.white);
     }
 
+    /**
+     * Constructeur de Case
+     * @param nomImage Nom de l'image que l'on applique à la case
+     * @param estDansMenu Booléen indiquant si la case que l'on crée se trouve dans le menu
+     * @param i Indice de la case dans le tableau de la vue
+     * @param j Indice de la case dans le tableau de la vue
+     * @throws IOException Erreur lors du chargement de l'image
+     */
     public Case(String nomImage, boolean estDansMenu, int i, int j) throws IOException {
         super();
         this.estDansMenu = estDansMenu;
@@ -85,6 +100,7 @@ public class Case extends JLabel implements Runnable{
 
         Ordonnanceur.getOrdonnanceur().addRunnable(this);
 
+        // Gestion du clic du menu
         if(estDansMenu) {
             addMouseListener(new MouseAdapter() {
                 @Override
@@ -104,6 +120,7 @@ public class Case extends JLabel implements Runnable{
         }
 
         icone(nomImage);
+
         if(estDansMenu) {
             Color grisClair = new Color(238, 238, 238);
             Border bordureExterne = BorderFactory.createLineBorder(grisClair, 3);
@@ -115,6 +132,9 @@ public class Case extends JLabel implements Runnable{
     }
 
     @Override
+    /**
+     * Gère dynamiquement les bordure et fonds des cases
+     */
     public void run() {
         if(estDansMenu) {
             if(!(Potager.getSelection().equals(nomImage))) {
@@ -129,45 +149,11 @@ public class Case extends JLabel implements Runnable{
         }
     }
 
-    // Renvoie les coordonnées de l'image dont le nom est en paramètre
-    private int[] getCoordsImage(String name) {
-        int[] coordsLegume = new int[4]; // x, y, width, height
-        coordsLegume[2] = 140;
-        coordsLegume[3] = 140;
-        switch(name) {
-            case "salade":
-                coordsLegume[0] = 0;
-                coordsLegume[1] = 0;
-                break;
-            case "champignon":
-                coordsLegume[0] = 390;
-                coordsLegume[1] = 1;
-                break;
-            case "carotte":
-                coordsLegume[0] = 390;
-                coordsLegume[1] = 392;
-                break;
-            case "mais":
-                coordsLegume[0] = 1954;
-                coordsLegume[1] = 390;
-                break;
-            case "aubergine":
-                coordsLegume[0] = 777;
-                coordsLegume[1] = 392;
-                break;
-            case "oignon":
-                coordsLegume[0] = 2732;
-                coordsLegume[1] = 391;
-                break;
-            default: // salade
-                coordsLegume[0] = 0;
-                coordsLegume[1] = 0;
-                break;
-        }
-        return coordsLegume;
-    }
-
-    // Remplace l'icone de la case par l'image dont le nom est en paramètre
+    /**
+     * Remplace l'icone de la case par l'image dont le nom est en paramètre
+     * @param name Nom de l'image que l'on veut afficher
+     * @throws IOException Erreur lors du chargement de l'image
+     */
     public void icone(String name) throws IOException {
         this.nomImage = name;
         BufferedImage imageBuffer = null;
@@ -194,7 +180,7 @@ public class Case extends JLabel implements Runnable{
             icon = new ImageIcon(image);
             this.setIcon(icon);
         }
-        else {
+        else { // Légume
             this.contientLegume = true;
             this.scale = 1;
             BufferedImage legume = null;
@@ -206,8 +192,6 @@ public class Case extends JLabel implements Runnable{
             }
             else {
                 legume = this.locked ? ImageIO.read(new File("assets/Legumes/"+name+"Locked.png")) : ImageIO.read(new File("assets/Legumes/"+name+".png"));
-                //int[] coords = getCoordsImage(name);
-                //legume = imageBuffer.getSubimage(coords[0], coords[1], coords[2], coords[3]); // image du légume
                 ImageIcon icon = new ImageIcon(legume);
                 image = icon.getImage().getScaledInstance(70,70,Image.SCALE_SMOOTH);
             }
@@ -218,6 +202,11 @@ public class Case extends JLabel implements Runnable{
         
     }
 
+    /**
+     * Permet de changer l'image du plant en fonction de son niveau de croissance
+     * @param croissance variable entre 0 et 1 qui indique le niveau de pousse du plant
+     * @throws IOException Erreur lors du chargement de l'image
+     */
     public void scale(float croissance) throws IOException {
         int stage = stageCroissance(croissance);
         BufferedImage legume = ImageIO.read(new File("assets/Legumes/"+this.nomImage+stage+".png"));
@@ -231,6 +220,9 @@ public class Case extends JLabel implements Runnable{
         scale = (int) (croissance*58f) + 1;
     }
 
+    /**
+     * Récolte un légume dans la parcelle, et remet l'image de terre
+     */
     public void recolte() {
         setBorder(BorderFactory.createLineBorder(Color.black,0));
         this.contientLegume = false;
@@ -242,6 +234,9 @@ public class Case extends JLabel implements Runnable{
         }
     }
 
+    /**
+     * Débloque une case du potager
+     */
     public void unlock() {
         this.locked = false;
         try {
@@ -253,6 +248,11 @@ public class Case extends JLabel implements Runnable{
         this.setText("");
     }
 
+    /**
+     * Indique le stage de croissance auquel en est le plant
+     * @param croissance variable entre 0 et 1 qui indique le niveau de pousse du plant
+     * @return int qui correspond au stage de croissance du plant
+     */
     private int stageCroissance(float croissance) {
         if(croissance < 0.33f) return 1;
         if(croissance < 0.66f) return 2;

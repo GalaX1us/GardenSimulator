@@ -27,23 +27,57 @@ import javax.swing.JPanel;
 
 import Modele.Potager;
 
+/**
+ * Classe qui gère l'affichage de la fenêtre
+ */
 public class Vue extends JFrame implements Observer {
 
+    /**
+     * Potager qui est un modèle qui fère la partie backend de l'application
+     */
     private Potager P;
+
+    /**
+     * Tableau de Case qui permet l'affichage des cases du potager
+     */
     public Case[][] tabG;
+    
+    /**
+     * Largeur de la fenêtre
+     */
     private static int WIDTH = 900;
+
+    /**
+     * Hauteur de la fenêtre
+     */
     private static int HEIGHT = 700;
+
+    /**
+     * Label qui permet d'afficher l'argent dont on dispose
+     */
     private Label affichageArgent;
+
+    /**
+     * Label qui permet d'afficher la date à laquelle nous sommes
+     */
     private Label affichageDate;
+
+    /**
+     * Label qui permet d'afficher la saison en cours
+     */
     private Label affichageSaison;
 
-
+    /**
+     * Constructeur de la vue du jeu
+     * @param potager Potager du jeu
+     */
     public Vue(Potager potager) {
         super();
 
         this.P = potager;
         this.tabG = new Case[Potager.height][Potager.width];
 
+        // Initialisation des Label
         Font font = new Font("Arial", Font.PLAIN, 20);
         this.affichageArgent = new Label("Argent : 0€", JLabel.CENTER);
         affichageArgent.setFont(font);
@@ -54,6 +88,7 @@ public class Vue extends JFrame implements Observer {
         this.affichageSaison = new Label("", JLabel.CENTER);
         affichageSaison.setFont(font);
 
+        // Construction de la fenêtre
         try {
             build();
         } catch (IOException e) {
@@ -70,6 +105,10 @@ public class Vue extends JFrame implements Observer {
 
     }
 
+    /**
+     * Construit l'affichage de la fenêtre qui est affichée à l'écran
+     * @throws IOException erreur lors du chargement des images
+     */
     public void build() throws IOException {
         
         // Initialisation de la fenêtre
@@ -78,6 +117,7 @@ public class Vue extends JFrame implements Observer {
         setResizable(false);
         setLocation(140, 70);
 
+        // JPanel qui contient tous les éléments de la fenêtre
         JPanel window = new JPanel(new GridBagLayout());
 
         // Création de la grille du potager
@@ -121,10 +161,14 @@ public class Vue extends JFrame implements Observer {
                                 Potager.ajoutArgent(-casePotager.getPrix());
                             }
                         }
-                        else if(Potager.getSelection().equals("arrosoir") && casePotager.getContientLegume() && !P.getParcelle(ii, jj).getLegume().isHarvestable()){
+                        else if(Potager.getSelection().equals("arrosoir") && 
+                                casePotager.getContientLegume() && 
+                                !P.getParcelle(ii, jj).getLegume().isHarvestable()){
                             P.getParcelle(ii, jj).arroser();
                         }
-                        else if(Potager.getSelection().equals("engrais") && casePotager.getContientLegume() && !P.getParcelle(ii, jj).getLegume().isHarvestable()){
+                        else if(Potager.getSelection().equals("engrais") && 
+                                casePotager.getContientLegume() && 
+                                !P.getParcelle(ii, jj).getLegume().isHarvestable()){
                             P.getParcelle(ii, jj).mettreEngrais();
                         }
                         else if(!Potager.getSelection().equals("")) {
@@ -180,6 +224,7 @@ public class Vue extends JFrame implements Observer {
         GridBagConstraints cMenu = new GridBagConstraints();
         cMenu.fill = GridBagConstraints.HORIZONTAL;
 
+        // Insertion des éléments dans le menu menu
         cMenu.gridy = 0;
         sideMenu.add(menuLegumes, cMenu);
         
@@ -192,7 +237,7 @@ public class Vue extends JFrame implements Observer {
         sideMenu.add(affichageSaison, cMenu);
 
         
-        
+        // Insertion de la grille et du menu dans la fenêtre
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.VERTICAL;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -208,11 +253,13 @@ public class Vue extends JFrame implements Observer {
         c.anchor = GridBagConstraints.NORTH;
         window.add(sideMenu, c);
         
-        //pack();
         add(window);
     }
 
     @Override
+    /**
+     * Met à jour l'affichage des Label et la croissance des légumes
+     */
     public void update(Observable o, Object arg) {
         affichageArgent.setText("Argent : "+Potager.getArgent()+"€");
         affichageDate.setText(P.getMois()+" "+P.getAnnee());
