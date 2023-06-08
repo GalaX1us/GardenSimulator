@@ -266,7 +266,7 @@ public class Vue extends JFrame implements Observer {
             for(int j = 0; j<Potager.width; j++) {
                 if(P.getParcelle(i, j).getLegume()!=null) {
                     try {
-                        this.tabG[i][j].scale(P.getParcelle(i, j).getLegume().croissance());
+                        this.tabG[i][j].scale(P.getParcelle(i, j).getLegume().getCroissance());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

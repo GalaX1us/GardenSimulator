@@ -40,7 +40,7 @@ public abstract class Legume {
      * Renvoie l'avancé de la croissance du légume
      * @return la valeur de sa croissance
      */
-    public float croissance(){
+    public float getCroissance(){
         return this.croissance;
     }
 
