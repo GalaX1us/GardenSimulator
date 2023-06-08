@@ -62,10 +62,6 @@ public class Meteo implements Runnable{
                 
                 // parse les résultats et normalisation des valeur pour qu'elles soient entre 0 et 1
 
-                //annee
-                ligneCSV.add(Float.parseFloat(result[0]));
-                //jour
-                ligneCSV.add(Float.parseFloat(result[1]));
                 //precipitation
                 ligneCSV.add((((Float.parseFloat(result[5])-2.251f)/4.743f)+1)/2);
                 //température
